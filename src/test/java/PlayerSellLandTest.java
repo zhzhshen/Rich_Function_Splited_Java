@@ -55,7 +55,6 @@ public class PlayerSellLandTest {
     @Test
     public void should_success_to_sell_land_when_level_three() {
         land.setLevel(3);
-        when(map.getPlace(eq(1))).thenReturn(land);
         player1.sellLand(1);
 
         assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE * 8));

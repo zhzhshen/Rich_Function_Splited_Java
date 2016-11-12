@@ -84,7 +84,7 @@ public class Player {
 
     public void sayYesToByTool(int toolIndex) {
         if (currentPlace instanceof ToolHouse) {
-            Command command = new BuyToolCommand(toolIndex);
+            Command command = new BuyItemCommand(toolIndex);
             command.action(currentPlace, this);
         }
         status = Player.ControlStatus.WAIT_FOR_RESPOND;
@@ -172,6 +172,11 @@ public class Player {
     public void sellLand(int placeIndex) {
         Command command = new SellLandCommand();
         command.action(map.getPlace(placeIndex), this);
+    }
+
+    public void sellItem(int itemIndex) {
+        Command command = new SellItemCommand(itemIndex);
+        command.action(null, this);
     }
 
     public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}

@@ -1,13 +1,13 @@
-public class BuyToolCommand implements Command {
-    private int toolIndex;
+public class BuyItemCommand implements Command {
+    private int itemIndex;
 
-    public BuyToolCommand(int toolIndex) {
-        this.toolIndex = toolIndex;
+    public BuyItemCommand(int itemIndex) {
+        this.itemIndex = itemIndex;
     }
 
     public void action(Place place, Player player) {
         ToolHouse toolHouse = (ToolHouse) place;
-        Item item = toolHouse.getItems().get(toolIndex - 1);
+        Item item = Items.getItem(itemIndex);
         if (player.getItems().size() < Player.MAX_ITEM
                 && player.reducePoint(item.getPrice())) {
             player.addItem(item);

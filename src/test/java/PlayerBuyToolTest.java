@@ -46,7 +46,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(1);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(ToolHouse.ROAD_BLOCK));
+        assertThat(player.getItems().get(0), is(Items.ROAD_BLOCK));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROAD_BLOCK));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -59,7 +59,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(2);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(ToolHouse.ROBOT));
+        assertThat(player.getItems().get(0), is(Items.ROBOT));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROBOT_PRICE));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -72,7 +72,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(3);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(ToolHouse.BOMB));
+        assertThat(player.getItems().get(0), is(Items.BOMB));
         assertThat(player.getPoint(), is(INITIAL_POINT - BOMB_PRICE));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -103,6 +103,6 @@ public class PlayerBuyToolTest {
     }
 
     private void playerBuyTenItems() {
-        for (int i = 0; i < 10; i++) player.addItem(ToolHouse.BOMB);
+        for (int i = 0; i < 10; i++) player.addItem(Items.BOMB);
     }
 }
