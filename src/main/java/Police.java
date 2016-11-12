@@ -4,6 +4,6 @@ public class Police implements Place {
     }
 
     public void action(Player player, Command command) {
-        player.prisoned();
+        command.action(this, player);
     }
 }

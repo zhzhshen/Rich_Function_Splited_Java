@@ -1,16 +1,16 @@
-public class VisitLandCommand implements Command {
+public class VisitPlaceCommand implements Command {
     public void action(Place place, Player player) {
-        Land land = (Land) place;
-        if (land.getOwner()== null) {
-            land.sellTo(player);
-        } else if (land.getOwner().equals(player)) {
-            land.builtBy(player);
-        } else {
+        if (place instanceof Land) {
+            Land land = (Land) place;
             if (!land.getOwner().isInHospital()
                     && !land.getOwner().isInPrison()
                     && !player.hasEvisu()) {
                 land.charge(player);
             }
+        }
+
+        if (place instanceof Police) {
+            player.prisoned();
         }
     }
 }

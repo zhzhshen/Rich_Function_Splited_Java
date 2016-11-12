@@ -65,7 +65,8 @@ public class Player {
         if (currentPlace.isInputRequired(this)) {
             status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {
-            currentPlace.action(this, new VisitLandCommand());
+            Command command = new VisitPlaceCommand();
+            command.action(currentPlace, this);
             status = Player.ControlStatus.TURN_END;
         }
         return status;
@@ -76,22 +77,23 @@ public class Player {
     }
 
     public void sayYes() {
-        currentPlace.action(this, new VisitLandCommand());
+        Command command = new BuyLandCommand();
+        command.action(currentPlace, this);
         status = Player.ControlStatus.TURN_END;
     }
 
     public void sayYesToByTool(int toolIndex) {
         if (currentPlace instanceof ToolHouse) {
-            ToolHouse toolHouse = (ToolHouse) currentPlace;
-            toolHouse.action(this, new BuyToolCommand(toolIndex));
+            Command command = new BuyToolCommand(toolIndex);
+            command.action(currentPlace, this);
         }
         status = Player.ControlStatus.WAIT_FOR_RESPOND;
     }
 
     public void chooseGift(int giftIndex) {
         if (currentPlace instanceof GiftHouse) {
-            GiftHouse giftHouse = (GiftHouse) currentPlace;
-            giftHouse.action(this, new SendGiftCommand(giftIndex));
+            Command command = new SendGiftCommand(giftIndex);
+            command.action(currentPlace, this);
         }
         status = Player.ControlStatus.TURN_END;
     }
@@ -168,8 +170,8 @@ public class Player {
     }
 
     public void sellLand(int placeIndex) {
-        Place place = map.getPlace(placeIndex);
-        place.action(this, new SellLandCommand());
+        Command command = new SellLandCommand();
+        command.action(map.getPlace(placeIndex), this);
     }
 
     public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}

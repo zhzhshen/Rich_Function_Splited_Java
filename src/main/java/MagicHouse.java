@@ -4,6 +4,6 @@ public class MagicHouse implements Place {
     }
 
     public void action(Player player, Command command) {
-
+        command.action(this, player);
     }
 }
