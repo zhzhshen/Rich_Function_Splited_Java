@@ -1,3 +1,5 @@
 public interface Place {
-    boolean isInputRequired();
+    boolean isInputRequired(Player player);
+
+    void action(Player player);
 }

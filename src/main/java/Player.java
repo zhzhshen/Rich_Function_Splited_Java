@@ -4,34 +4,38 @@ import java.util.List;
 public class Player {
     public static final int MAX_ITEM = 10;
     private GameMap map;
-    private int cashBalance;
-    private Status status = Status.WAIT_FOR_INPUT;
+    private double cashBalance;
+    private ControlStatus status = ControlStatus.WAIT_FOR_INPUT;
     private Place currentPlace;
     private List<Item> items = new ArrayList<>(MAX_ITEM);
+    private List<GameStatus> gameStatus = new ArrayList<>();
 
     public Player(GameMap map) {
         this.map = map;
     }
 
-    public Status getStatus() {
+    public ControlStatus getControlStatus() {
         return status;
     }
 
-    public int getCashBalance() {
+    public double getCashBalance() {
         return cashBalance;
     }
 
-    public Status roll(Dice dice) {
+    public ControlStatus roll(Dice dice) {
         currentPlace = map.move(currentPlace, dice.roll());
-        status = currentPlace.isInputRequired() ? Status.WAIT_FOR_INPUT : Status.TURN_END;
+        if (currentPlace.isInputRequired(this)) {
+            status = ControlStatus.WAIT_FOR_INPUT;
+        } else {
+            currentPlace.action(this);
+            status = ControlStatus.TURN_END;
+        }
         return status;
     }
 
     public void sayYes() {
-        if (currentPlace instanceof Buyable) {
-            ((Buyable) this.currentPlace).action(this);
-        }
-        status = Status.TURN_END;
+        this.currentPlace.action(this);
+        status = ControlStatus.TURN_END;
     }
 
     public void sayYesToByTool(int index) {
@@ -40,10 +44,10 @@ public class Player {
             Buyable item = toolHouse.getItem(index);
             item.action(this);
         }
-        status = Status.WAIT_FOR_INPUT;
+        status = ControlStatus.WAIT_FOR_INPUT;
     }
 
-    protected boolean reduceMoney(int amount) {
+    protected boolean reduceMoney(double amount) {
         if (getCashBalance() >= amount) {
             cashBalance -= amount;
             return true;
@@ -52,10 +56,10 @@ public class Player {
     }
 
     public void sayNo() {
-        status = Status.TURN_END;
+        status = ControlStatus.TURN_END;
     }
 
-    public void setCashBalance(int cashBalance) {
+    public void setCashBalance(double cashBalance) {
         this.cashBalance = cashBalance;
     }
 
@@ -67,5 +71,35 @@ public class Player {
         items.add(item);
     }
 
-    public enum Status {TURN_END, WAIT_FOR_INPUT}
+    public void gainMoney(double amount) {
+        cashBalance += amount;
+    }
+
+    public void burn() {
+        gameStatus.add(GameStatus.IN_HOSPITAL);
+    }
+
+    public void prisoned() {
+        gameStatus.add(GameStatus.IN_PRISON);
+    }
+
+    public void evisu() {
+        gameStatus.add(GameStatus.HAS_EVISU);
+    }
+
+    public boolean isInHospital() {
+        return gameStatus.contains(GameStatus.IN_HOSPITAL);
+    }
+
+    public boolean isInPrison() {
+        return gameStatus.contains(GameStatus.IN_PRISON);
+    }
+
+    public boolean hasEvisu() {
+        return gameStatus.contains(GameStatus.HAS_EVISU);
+    }
+
+    public enum ControlStatus {TURN_END, WAIT_FOR_INPUT}
+
+    public enum GameStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}
 }

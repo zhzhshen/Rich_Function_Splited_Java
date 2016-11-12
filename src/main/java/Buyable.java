@@ -3,7 +3,7 @@ public interface Buyable {
 
     Player getOwner();
 
-    int getUnitPrice();
+    double getUnitPrice();
 
     int getLevel();
 

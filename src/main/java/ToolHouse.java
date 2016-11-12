@@ -9,8 +9,12 @@ public class ToolHouse implements Place{
             add(ROAD_BLOCK);
         }
     };
-    public boolean isInputRequired() {
+    public boolean isInputRequired(Player player) {
         return true;
+    }
+
+    public void action(Player player) {
+
     }
 
     public Item getItem(int index) {

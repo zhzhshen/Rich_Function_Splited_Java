@@ -4,14 +4,15 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PlayerBuyLandTest {
-    private static final int THOUSAND = 1000;
-    private static final int HUNDRED = 100;
+    private static final double THOUSAND = 1000;
+    private static final double HUNDRED = 100;
     Land land = new Land(HUNDRED);
     GameMap map;
     Player player;
@@ -31,7 +32,7 @@ public class PlayerBuyLandTest {
         player.sayNo();
 
         assertEquals(land.getOwner(), null);
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 
     @Test
@@ -41,7 +42,7 @@ public class PlayerBuyLandTest {
 
         assertThat(land.getOwner(), is(player));
         assertThat(player.getCashBalance(), is(THOUSAND - HUNDRED));
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 
     @Test
@@ -50,7 +51,7 @@ public class PlayerBuyLandTest {
         player.sayYes();
 
         assertEquals(land.getOwner(), null);
-        assertThat(player.getCashBalance(), is(0));
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertTrue(player.getCashBalance() == 0);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 }

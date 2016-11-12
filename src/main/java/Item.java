@@ -15,7 +15,7 @@ public class Item implements Buyable {
         return null;
     }
 
-    public int getUnitPrice() {
+    public double getUnitPrice() {
         return price;
     }
 

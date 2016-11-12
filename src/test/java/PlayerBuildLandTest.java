@@ -4,14 +4,15 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PlayerBuildLandTest {
-    private static final int THOUSAND = 1000;
-    private static final int HUNDRED = 100;
+    private static final double THOUSAND = 1000;
+    private static final double HUNDRED = 100;
     private static final int LEVEL = 0;
     Land land = new Land(HUNDRED, LEVEL);
     GameMap map;
@@ -31,11 +32,11 @@ public class PlayerBuildLandTest {
 
     @Test
     public void should_end_turn_when_say_no() {
-        assertEquals(player.getStatus(), Player.Status.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
 
         player.sayNo();
 
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 
     @Test
@@ -45,7 +46,7 @@ public class PlayerBuildLandTest {
 
         assertThat(land.getLevel(), is(LEVEL + 1));
         assertThat(player.getCashBalance(), is(THOUSAND - HUNDRED));
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 
     @Test
@@ -54,8 +55,8 @@ public class PlayerBuildLandTest {
         player.sayYes();
 
         assertThat(land.getLevel(), is(LEVEL));
-        assertThat(player.getCashBalance(), is(0));
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertTrue(player.getCashBalance() == 0);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 
     @Test
@@ -85,6 +86,6 @@ public class PlayerBuildLandTest {
 
         player.roll(() -> 1);
 
-        assertEquals(player.getStatus(), Player.Status.TURN_END);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
 }
