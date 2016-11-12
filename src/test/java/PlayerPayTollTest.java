@@ -82,7 +82,7 @@ public class PlayerPayTollTest {
     }
 
     @Test
-    public void should_not_pay_toll_when_has_() {
+    public void should_not_pay_toll_when_has_evisu() {
         player.evisu();
 
         player.roll(() -> 1);

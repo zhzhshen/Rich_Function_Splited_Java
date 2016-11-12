@@ -5,10 +5,10 @@ public class Player {
     public static final int MAX_ITEM = 10;
     private GameMap map;
     private double cashBalance;
-    private ControlStatus status = ControlStatus.WAIT_FOR_INPUT;
+    private ControlStatus status = Player.ControlStatus.INACTIVE;
+    private List<SpecialStatus> gameStatus = new ArrayList<>();
     private Place currentPlace;
     private List<Item> items = new ArrayList<>(MAX_ITEM);
-    private List<GameStatus> gameStatus = new ArrayList<>();
     private int point;
 
     public Player(GameMap map) {
@@ -62,21 +62,21 @@ public class Player {
     public ControlStatus roll(Dice dice) {
         currentPlace = map.move(currentPlace, dice.roll());
         if (currentPlace.isInputRequired(this)) {
-            status = ControlStatus.WAIT_FOR_INPUT;
+            status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {
             currentPlace.action(this, 0);
-            status = ControlStatus.TURN_END;
+            status = Player.ControlStatus.TURN_END;
         }
         return status;
     }
 
     public void sayNo() {
-        status = ControlStatus.TURN_END;
+        status = Player.ControlStatus.TURN_END;
     }
 
     public void sayYes() {
         currentPlace.action(this, 0);
-        status = ControlStatus.TURN_END;
+        status = Player.ControlStatus.TURN_END;
     }
 
     public void sayYesToByTool(int toolIndex) {
@@ -84,7 +84,7 @@ public class Player {
             ToolHouse toolHouse = (ToolHouse) currentPlace;
             toolHouse.action(this, toolIndex);
         }
-        status = ControlStatus.WAIT_FOR_INPUT;
+        status = Player.ControlStatus.WAIT_FOR_RESPOND;
     }
 
     public void chooseGift(int giftIndex) {
@@ -92,7 +92,7 @@ public class Player {
             GiftHouse giftHouse = (GiftHouse) currentPlace;
             giftHouse.action(this, giftIndex);
         }
-        status = ControlStatus.TURN_END;
+        status = Player.ControlStatus.TURN_END;
     }
 
     public List<Item> getItems() {
@@ -104,30 +104,74 @@ public class Player {
     }
 
     public void burn() {
-        gameStatus.add(GameStatus.IN_HOSPITAL);
+        gameStatus.add(new SpecialStatus(GameStatus.IN_HOSPITAL));
     }
 
     public void prisoned() {
-        gameStatus.add(GameStatus.IN_PRISON);
+        gameStatus.add(new SpecialStatus(GameStatus.IN_PRISON));
     }
 
     public void evisu() {
-        gameStatus.add(GameStatus.HAS_EVISU);
+        gameStatus.add(new SpecialStatus(GameStatus.HAS_EVISU));
     }
 
     public boolean isInHospital() {
-        return gameStatus.contains(GameStatus.IN_HOSPITAL);
+        return gameStatus.stream().anyMatch(status -> status.getStatus().equals(GameStatus.IN_HOSPITAL));
     }
 
     public boolean isInPrison() {
-        return gameStatus.contains(GameStatus.IN_PRISON);
+        return gameStatus.stream().anyMatch(status -> status.getStatus().equals(GameStatus.IN_PRISON));
     }
 
     public boolean hasEvisu() {
-        return gameStatus.contains(GameStatus.HAS_EVISU);
+        return gameStatus.stream().anyMatch(status -> status.getStatus().equals(GameStatus.HAS_EVISU));
     }
 
-    public enum ControlStatus {TURN_END, WAIT_FOR_INPUT}
+    public boolean activate() {
+        status = Player.ControlStatus.WAIT_FOR_COMMAND;
+        if (isInHospital() || isInPrison()) {
+            SpecialStatus specialStatus = gameStatus.stream()
+                    .filter(status -> status.getStatus().equals(GameStatus.IN_HOSPITAL)
+                            || status.getStatus().equals(GameStatus.IN_PRISON))
+                    .findFirst().get();
+            specialStatus.reduceTurnLeft();
+            if (specialStatus.getTurnsLeft() == 0) {
+                gameStatus.remove(specialStatus);
+                return true;
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-    public enum GameStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}
+    public void deactivate() {
+        status = Player.ControlStatus.INACTIVE;
+    }
+
+    public int getSkipTurns() {
+        return gameStatus.stream()
+                .filter(status -> status.getStatus().equals(GameStatus.IN_HOSPITAL)
+                        || status.getStatus().equals(GameStatus.IN_PRISON))
+                .findFirst()
+                .map(status -> status.getTurnsLeft())
+                .orElse(0);
+    }
+
+    public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}
+
+    public enum GameStatus {
+        IN_PRISON(2), HAS_EVISU(5), IN_HOSPITAL(3);
+
+        private int turns;
+
+        GameStatus(int turns) {
+            this.turns = turns;
+        }
+
+        public int getTurns() {
+            return turns;
+        }
+    }
+
 }

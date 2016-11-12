@@ -30,7 +30,7 @@ public class PlayerBuyToolTest {
 
     @Test
     public void should_end_turn_when_say_no() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.sayNo();
 
@@ -40,7 +40,7 @@ public class PlayerBuyToolTest {
 
     @Test
     public void should_success_to_buy_roadblock_when_yes_with_enough_money() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
         player.sayYesToByTool(1);
@@ -48,12 +48,12 @@ public class PlayerBuyToolTest {
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(ToolHouse.ROAD_BLOCK));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROAD_BLOCK));
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 
     @Test
     public void should_success_to_buy_robot_when_yes_with_enough_money() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
         player.sayYesToByTool(2);
@@ -61,12 +61,12 @@ public class PlayerBuyToolTest {
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(ToolHouse.ROBOT));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROBOT_PRICE));
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 
     @Test
     public void should_success_to_buy_bomb_when_yes_with_enough_money() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
         player.sayYesToByTool(3);
@@ -74,32 +74,32 @@ public class PlayerBuyToolTest {
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(ToolHouse.BOMB));
         assertThat(player.getPoint(), is(INITIAL_POINT - BOMB_PRICE));
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 
     @Test
     public void should_fail_to_buy_bomb_when_yes_without_enough_money() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(0);
         player.sayYesToByTool(2);
 
         assertThat(player.getItems().size(), is(0));
         assertTrue(player.getPoint() == 0);
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 
     @Test
     public void should_fail_to_buy_roadblock_when_yes_with_max_item() {
         playerBuyTenItems();
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
         player.sayYesToByTool(3);
 
         assertThat(player.getItems().size(), is(10));
         assertThat(player.getPoint(), is(INITIAL_POINT));
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 
     private void playerBuyTenItems() {

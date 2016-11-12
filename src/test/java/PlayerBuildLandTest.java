@@ -32,7 +32,7 @@ public class PlayerBuildLandTest {
 
     @Test
     public void should_end_turn_when_say_no() {
-        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
+        assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.sayNo();
 

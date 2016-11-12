@@ -26,7 +26,7 @@ public class PlayerWalkTest {
 
         player.roll(dice);
 
-        assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_INPUT));
+        assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_RESPOND));
     }
 
     @Test
@@ -71,6 +71,6 @@ public class PlayerWalkTest {
 
         player.roll(dice);
 
-        assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_INPUT));
+        assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_RESPOND));
     }
 }
