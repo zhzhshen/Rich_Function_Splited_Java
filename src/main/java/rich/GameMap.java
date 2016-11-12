@@ -1,6 +1,9 @@
 package rich;
 
+import rich.Item.Bomb;
 import rich.Item.Item;
+import rich.Item.RoadBlock;
+import rich.place.Hospital;
 import rich.place.Place;
 
 import java.util.*;
@@ -14,14 +17,46 @@ public class GameMap {
         this.places.addAll(Arrays.asList(places));
     }
 
-    public Place move(Place currentPlace, int step) {
+    public Place move(Player player, int step) {
         int position = 0;
-        if (currentPlace != null) {
-            position = currentPlace.getPosition() - 1;
+
+        Iterator<Map.Entry<Integer, Item>> iterator = items.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, Item> itemEntry = iterator.next();
+            int itemPosition = itemEntry.getKey();
+            Item item = itemEntry.getValue();
+            int destination = (player.getCurrentPlace().getPosition() + step - 1) % places.size() + 1;
+            boolean reach = isInBetween(itemPosition, player.getCurrentPlace().getPosition(), destination);
+            if (reach) {
+                iterator.remove();
+                if (item instanceof RoadBlock) {
+                    return getPlace(itemPosition - 1);
+                } else if (item instanceof Bomb) {
+                    player.burn();
+                    return getHospital();
+                }
+            }
+        }
+
+        if (player.getCurrentPlace() != null) {
+            position = player.getCurrentPlace().getPosition() - 1;
         }
 
         position = (position + step) % places.size();
         return getPlace(position);
+    }
+
+    private Place getHospital() {
+        return places.stream().filter(place -> place instanceof Hospital).findFirst().get();
+    }
+
+    private boolean isInBetween(int test, int start, int end) {
+        if ((end < test && test < start)
+                || (test < start && start < end)
+                || (start < end && end < test)) {
+            return false;
+        }
+        return true;
     }
 
     public Place getPlace(int position) {
@@ -45,7 +80,7 @@ public class GameMap {
     }
 
     public boolean anyPlayerAt(int position) {
-        return players.stream().map(p->p.getCurrentPlace().getPosition()).anyMatch(p->p==position);
+        return players.stream().map(p -> p.getCurrentPlace().getPosition()).anyMatch(p -> p == position);
     }
 
     public int getDistance(Player player, int position) {
@@ -56,7 +91,8 @@ public class GameMap {
         Iterator<Map.Entry<Integer, Item>> iterator = items.entrySet().iterator();
         while (iterator.hasNext()) {
             int itemPosition = iterator.next().getKey();
-            if (itemPosition > position && itemPosition <= position + steps) {
+            int destination = (position + steps - 1) % places.size();
+            if (isInBetween(itemPosition, position, destination)) {
                 iterator.remove();
             }
         }

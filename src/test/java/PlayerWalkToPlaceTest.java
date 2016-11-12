@@ -1,12 +1,14 @@
 import org.junit.Before;
 import org.junit.Test;
-import rich.*;
+import rich.Dice;
+import rich.GameMap;
+import rich.Player;
 import rich.place.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +26,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_wait_for_input_when_walk_to_empty_place() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Land());
+        when(map.move(eq(player), anyInt())).thenReturn(new Land());
 
         player.roll(dice);
 
@@ -33,7 +35,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_turn_end_when_walk_to_hospital() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Hospital(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new Hospital(1));
 
         player.roll(dice);
 
@@ -42,7 +44,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_turn_end_when_walk_to_starting_point() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new StartingPoint(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new StartingPoint(1));
 
         player.roll(dice);
 
@@ -51,7 +53,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_turn_end_when_walk_to_magic_house() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new MagicHouse(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new MagicHouse(1));
 
         player.roll(dice);
 
@@ -60,7 +62,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_turn_end_when_walk_to_police() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Police(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new Police(1));
 
         player.roll(dice);
 
@@ -69,7 +71,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_wait_for_input_when_walk_to_gift_house() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new GiftHouse(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new GiftHouse(1));
 
         player.roll(dice);
 

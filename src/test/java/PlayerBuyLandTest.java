@@ -1,16 +1,13 @@
 import org.junit.Before;
 import org.junit.Test;
 import rich.GameMap;
-import rich.place.Land;
-import rich.place.Place;
 import rich.Player;
+import rich.place.Land;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +23,7 @@ public class PlayerBuyLandTest {
         map = mock(GameMap.class);
         player = new Player(map);
 
-        when(map.move(any(Place.class), anyInt())).thenReturn(land);
+        when(map.move(eq(player), anyInt())).thenReturn(land);
 
         player.roll(() -> 1);
     }

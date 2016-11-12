@@ -71,7 +71,7 @@ public class Player {
     }
 
     public ControlStatus roll(Dice dice) {
-        currentPlace = map.move(currentPlace, dice.roll());
+        currentPlace = map.move(this, dice.roll());
         if (currentPlace.isInputRequired(this)) {
             status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {

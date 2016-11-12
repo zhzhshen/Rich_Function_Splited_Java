@@ -1,13 +1,14 @@
 import org.junit.Before;
 import org.junit.Test;
-import rich.*;
-import rich.place.Place;
+import rich.Dice;
+import rich.GameMap;
+import rich.Player;
 import rich.place.Police;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -22,7 +23,7 @@ public class PlayerVisitPoliceTest {
         player = new Player(map);
         dice = () -> 1;
 
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Police(1));
+        when(map.move(eq(player), anyInt())).thenReturn(new Police(1));
 
         player.roll(dice);
 

@@ -5,13 +5,12 @@ import rich.Item.Bomb;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
-import rich.place.Place;
 import rich.place.ToolHouse;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +32,7 @@ public class PlayerBuyToolTest {
         toolHouse = new ToolHouse(1);
         player = new Player(map);
 
-        when(map.move(any(Place.class), anyInt())).thenReturn(toolHouse);
+        when(map.move(eq(player), anyInt())).thenReturn(toolHouse);
 
         player.roll(() -> 1);
     }

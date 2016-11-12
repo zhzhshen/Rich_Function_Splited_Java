@@ -106,7 +106,6 @@ public class UseItemTest {
 
         player.useItem(UserItemCommand.USE_ROBOT, 0);
 
-        System.out.println(player.getItems());
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
         assertThat(map.getItemAt(2), is(nullValue()));
