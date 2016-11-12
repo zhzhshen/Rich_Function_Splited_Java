@@ -21,6 +21,9 @@ hs_err_pid*
 .idea/tasks.xml
 /build
 /.gradle
+/Rich.ipr
+/Rich.iml
+/Rich.iws
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
