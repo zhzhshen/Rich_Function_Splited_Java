@@ -1,4 +1,4 @@
-public class Land implements Place, Buyable {
+public class Land implements Place {
     private static final int MAX_LEVEL = 3;
     private Player owner;
     private double unitPrice;
@@ -50,7 +50,7 @@ public class Land implements Place, Buyable {
         return MAX_LEVEL == level;
     }
 
-    public void actionOn(Player player) {
+    public void action(Player player, int index) {
         if (owner == null) {
             sellTo(player);
         } else if (owner.equals(player)) {

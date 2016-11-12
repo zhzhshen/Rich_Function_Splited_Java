@@ -3,7 +3,7 @@ public class MagicHouse implements Place {
         return false;
     }
 
-    public void actionOn(Player player) {
+    public void action(Player player, int index) {
 
     }
 }

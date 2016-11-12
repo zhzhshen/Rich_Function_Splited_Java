@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToolHouse implements Place{
+public class ToolHouse implements Place {
     private List<Item> items = new ArrayList() {
         {
             add(ROBOT);
@@ -13,12 +13,12 @@ public class ToolHouse implements Place{
         return true;
     }
 
-    public void actionOn(Player player) {
-
-    }
-
-    public Item getItem(int index) {
-        return items.get(index);
+    public void action(Player player, int toolIndex) {
+        Item item = items.get(toolIndex - 1);
+        if (player.getItems().size() < Player.MAX_ITEM
+                && player.reduceMoney(item.getPrice())) {
+            player.addItem(item);
+        }
     }
 
     public static final Item ROBOT = new Item("ROBOT", 100);

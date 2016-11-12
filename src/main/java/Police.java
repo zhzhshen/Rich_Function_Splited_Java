@@ -3,7 +3,7 @@ public class Police implements Place {
         return false;
     }
 
-    public void actionOn(Player player) {
+    public void action(Player player, int index) {
         player.prisoned();
     }
 }

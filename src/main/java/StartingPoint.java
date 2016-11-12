@@ -3,7 +3,8 @@ public class StartingPoint implements Place {
         return false;
     }
 
-    public void actionOn(Player player) {
+    @Override
+    public void action(Player player, int index) {
 
     }
 }

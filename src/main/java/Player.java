@@ -9,6 +9,7 @@ public class Player {
     private Place currentPlace;
     private List<Item> items = new ArrayList<>(MAX_ITEM);
     private List<GameStatus> gameStatus = new ArrayList<>();
+    private int point;
 
     public Player(GameMap map) {
         this.map = map;
@@ -22,12 +23,36 @@ public class Player {
         return cashBalance;
     }
 
+    public void setCashBalance(double cashBalance) {
+        this.cashBalance = cashBalance;
+    }
+
+    public void gainMoney(double amount) {
+        cashBalance += amount;
+    }
+
+    public boolean reduceMoney(double amount) {
+        if (getCashBalance() >= amount) {
+            cashBalance -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void gainPoint(int amount) {
+        point += amount;
+    }
+
     public ControlStatus roll(Dice dice) {
         currentPlace = map.move(currentPlace, dice.roll());
         if (currentPlace.isInputRequired(this)) {
             status = ControlStatus.WAIT_FOR_INPUT;
         } else {
-            currentPlace.actionOn(this);
+            currentPlace.action(this, 0);
             status = ControlStatus.TURN_END;
         }
         return status;
@@ -38,15 +63,14 @@ public class Player {
     }
 
     public void sayYes() {
-        this.currentPlace.actionOn(this);
+        currentPlace.action(this, 0);
         status = ControlStatus.TURN_END;
     }
 
-    public void sayYesToByTool(int index) {
+    public void sayYesToByTool(int toolIndex) {
         if (currentPlace instanceof ToolHouse) {
             ToolHouse toolHouse = (ToolHouse) currentPlace;
-            Buyable item = toolHouse.getItem(index);
-            item.action(this);
+            toolHouse.action(this, toolIndex);
         }
         status = ControlStatus.WAIT_FOR_INPUT;
     }
@@ -54,21 +78,9 @@ public class Player {
     public void chooseGift(int giftIndex) {
         if (currentPlace instanceof GiftHouse) {
             GiftHouse giftHouse = (GiftHouse) currentPlace;
-//            giftHouse.repond(this, giftIndex);
+            giftHouse.action(this, giftIndex);
         }
         status = ControlStatus.TURN_END;
-    }
-
-    protected boolean reduceMoney(double amount) {
-        if (getCashBalance() >= amount) {
-            cashBalance -= amount;
-            return true;
-        }
-        return false;
-    }
-
-    public void setCashBalance(double cashBalance) {
-        this.cashBalance = cashBalance;
     }
 
     public List<Item> getItems() {
@@ -77,10 +89,6 @@ public class Player {
 
     public void addItem(Item item) {
         items.add(item);
-    }
-
-    public void gainMoney(double amount) {
-        cashBalance += amount;
     }
 
     public void burn() {

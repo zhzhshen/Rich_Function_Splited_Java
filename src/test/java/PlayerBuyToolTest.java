@@ -2,12 +2,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,10 +18,9 @@ public class PlayerBuyToolTest {
     @Before
     public void setUp() throws Exception {
         map = mock(GameMap.class);
-        toolHouse = mock(ToolHouse.class);
+        toolHouse = new ToolHouse();
         player = new Player(map);
 
-        when(toolHouse.isInputRequired(eq(player))).thenReturn(true);
         when(map.move(any(Place.class), anyInt())).thenReturn(toolHouse);
 
         player.roll(() -> 1);
@@ -42,7 +38,6 @@ public class PlayerBuyToolTest {
 
     @Test
     public void should_success_to_buy_robot_when_yes_with_enough_money() {
-        when(toolHouse.getItem(anyInt())).thenReturn(ToolHouse.ROBOT);
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
 
         player.setCashBalance(THOUSAND);
@@ -56,7 +51,6 @@ public class PlayerBuyToolTest {
 
     @Test
     public void should_fail_to_buy_bomb_when_yes_without_enough_money() {
-        when(toolHouse.getItem(anyInt())).thenReturn(ToolHouse.BOMB);
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
 
         player.setCashBalance(0);
@@ -70,7 +64,6 @@ public class PlayerBuyToolTest {
     @Test
     public void should_fail_to_buy_roadblock_when_yes_with_max_item() {
         playerBuyTenItems();
-        when(toolHouse.getItem(anyInt())).thenReturn(ToolHouse.ROAD_BLOCK);
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_INPUT);
 
         player.setCashBalance(THOUSAND);
