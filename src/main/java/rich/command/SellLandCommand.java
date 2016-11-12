@@ -1,12 +1,19 @@
 package rich.command;
 
-import rich.place.Land;
-import rich.place.Place;
+import rich.GameMap;
 import rich.Player;
+import rich.place.Land;
 
 public class SellLandCommand implements Command {
-    public void action(Place place, Player player) {
-        Land land = (Land) place;
+    private int placeIndex;
+
+    public SellLandCommand(int placeIndex) {
+
+        this.placeIndex = placeIndex;
+    }
+
+    public void action(GameMap map, Player player) {
+        Land land = (Land) map.getPlace(placeIndex);
         if (player.equals(land.getOwner())) {
             player.gainMoney(land.getPrice() * (land.getLevel() + 1) * 2);
             land.setLevel(0);

@@ -1,6 +1,6 @@
 package rich.command;
 
-import rich.place.Place;
+import rich.GameMap;
 import rich.Player;
 
 public class SendGiftCommand implements Command{
@@ -10,7 +10,7 @@ public class SendGiftCommand implements Command{
         this.giftIndex = giftIndex;
     }
 
-    public void action(Place place, Player player) {
+    public void action(GameMap map, Player player) {
         switch (giftIndex) {
             case 1:
                 player.gainMoney(2000);

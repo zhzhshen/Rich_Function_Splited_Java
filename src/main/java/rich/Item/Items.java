@@ -1,18 +1,14 @@
 package rich.Item;
 
 public class Items {
-    public static final Item ROAD_BLOCK = new RoadBlock(50);
-    public static final Item ROBOT = new Robot(30);
-    public static final Item BOMB = new Bomb(50);
-
     public static Item getItem(int index) {
         switch (index) {
             case 1:
-                return ROAD_BLOCK;
+                return new RoadBlock(50);
             case 2:
-                return ROBOT;
+                return new Robot(30);
             case 3:
-                return BOMB;
+                return new Bomb(50);
         }
         return null;
     }

@@ -1,8 +1,8 @@
 package rich.command;
 
-import rich.place.Place;
+import rich.GameMap;
 import rich.Player;
 
 public interface Command {
-    void action(Place place, Player player);
+    void action(GameMap map, Player player);
 }

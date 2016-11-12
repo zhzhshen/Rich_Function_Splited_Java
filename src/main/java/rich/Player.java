@@ -23,6 +23,7 @@ public class Player {
 
     public Player(GameMap map) {
         this.map = map;
+        this.currentPlace = map.getPlace(0);
     }
 
     public ControlStatus getControlStatus() {
@@ -74,8 +75,8 @@ public class Player {
         if (currentPlace.isInputRequired(this)) {
             status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {
-            Command command = new VisitPlaceCommand();
-            command.action(currentPlace, this);
+            Command command = new VisitPlaceCommand(currentPlace);
+            command.action(map, this);
             status = Player.ControlStatus.TURN_END;
         }
         return status;
@@ -86,15 +87,15 @@ public class Player {
     }
 
     public void sayYes() {
-        Command command = new BuyLandCommand();
-        command.action(currentPlace, this);
+        Command command = new BuyLandCommand(currentPlace);
+        command.action(map, this);
         status = Player.ControlStatus.TURN_END;
     }
 
     public void sayYesToByTool(int toolIndex) {
         if (currentPlace instanceof ToolHouse) {
             Command command = new BuyItemCommand(toolIndex);
-            command.action(currentPlace, this);
+            command.action(map, this);
         }
         status = Player.ControlStatus.WAIT_FOR_RESPOND;
     }
@@ -102,7 +103,7 @@ public class Player {
     public void chooseGift(int giftIndex) {
         if (currentPlace instanceof GiftHouse) {
             Command command = new SendGiftCommand(giftIndex);
-            command.action(currentPlace, this);
+            command.action(map, this);
         }
         status = Player.ControlStatus.TURN_END;
     }
@@ -183,13 +184,22 @@ public class Player {
     }
 
     public void sellLand(int placeIndex) {
-        Command command = new SellLandCommand();
-        command.action(map.getPlace(placeIndex), this);
+        Command command = new SellLandCommand(placeIndex);
+        command.action(map, this);
     }
 
     public void sellItem(int itemIndex) {
         Command command = new SellItemCommand(itemIndex);
-        command.action(null, this);
+        command.action(map, this);
+    }
+
+    public boolean removeItem(Item item) {
+        return getItems().remove(item);
+    }
+
+    public void useItem(int item, int position) {
+        Command command = new UserItemCommand(item, position);
+        command.action(map, this);
     }
 
     public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}

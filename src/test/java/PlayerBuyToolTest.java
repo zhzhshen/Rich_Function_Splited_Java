@@ -1,7 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
-import rich.*;
-import rich.Item.Items;
+import rich.GameMap;
+import rich.Item.Bomb;
+import rich.Item.RoadBlock;
+import rich.Item.Robot;
+import rich.Player;
 import rich.place.Place;
 import rich.place.ToolHouse;
 
@@ -20,6 +23,9 @@ public class PlayerBuyToolTest {
     ToolHouse toolHouse;
     GameMap map;
     Player player;
+    private RoadBlock roadBlock = new RoadBlock(50);
+    private Robot robot = new Robot(30);
+    private Bomb bomb = new Bomb(50);
 
     @Before
     public void setUp() throws Exception {
@@ -50,7 +56,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(1);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(Items.ROAD_BLOCK));
+        assertThat(player.getItems().get(0), is(roadBlock));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROAD_BLOCK));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -63,7 +69,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(2);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(Items.ROBOT));
+        assertThat(player.getItems().get(0), is(robot));
         assertThat(player.getPoint(), is(INITIAL_POINT - ROBOT_PRICE));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -76,7 +82,7 @@ public class PlayerBuyToolTest {
         player.sayYesToByTool(3);
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getItems().get(0), is(Items.BOMB));
+        assertThat(player.getItems().get(0), is(bomb));
         assertThat(player.getPoint(), is(INITIAL_POINT - BOMB_PRICE));
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
     }
@@ -107,6 +113,6 @@ public class PlayerBuyToolTest {
     }
 
     private void playerBuyTenItems() {
-        for (int i = 0; i < 10; i++) player.addItem(Items.BOMB);
+        for (int i = 0; i < 10; i++) player.addItem(new Bomb(50));
     }
 }
