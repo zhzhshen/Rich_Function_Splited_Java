@@ -1,5 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
+import rich.GameMap;
+import rich.place.Land;
+import rich.place.Place;
+import rich.Player;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;

@@ -1,3 +1,12 @@
+package rich;
+
+import rich.Item.Item;
+import rich.command.*;
+import rich.place.GiftHouse;
+import rich.place.Land;
+import rich.place.Place;
+import rich.place.ToolHouse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,11 +14,11 @@ public class Player {
     public static final int MAX_ITEM = 10;
     private GameMap map;
     private double cashBalance;
+    private int point;
+    private Place currentPlace;
     private ControlStatus status = Player.ControlStatus.INACTIVE;
     private List<SpecialStatus> gameStatus = new ArrayList<>();
-    private Place currentPlace;
     private List<Item> items = new ArrayList<>(MAX_ITEM);
-    private int point;
     private List<Land> lands = new ArrayList<>();
 
     public Player(GameMap map) {
@@ -96,6 +105,10 @@ public class Player {
             command.action(currentPlace, this);
         }
         status = Player.ControlStatus.TURN_END;
+    }
+
+    public Place getCurrentPlace() {
+        return currentPlace;
     }
 
     public List<Land> getLands() {

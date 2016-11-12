@@ -1,5 +1,9 @@
+package rich.place;
+
+import rich.Player;
+
 public interface Place {
     boolean isInputRequired(Player player);
 
-    void action(Player player, Command command);
+    int getPosition();
 }

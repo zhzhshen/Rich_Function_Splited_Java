@@ -1,5 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
+import rich.*;
+import rich.Item.Items;
+import rich.place.Place;
+import rich.place.ToolHouse;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -20,7 +24,7 @@ public class PlayerBuyToolTest {
     @Before
     public void setUp() throws Exception {
         map = mock(GameMap.class);
-        toolHouse = new ToolHouse();
+        toolHouse = new ToolHouse(1);
         player = new Player(map);
 
         when(map.move(any(Place.class), anyInt())).thenReturn(toolHouse);

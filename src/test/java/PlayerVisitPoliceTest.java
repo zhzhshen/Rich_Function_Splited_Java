@@ -1,5 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
+import rich.*;
+import rich.place.Place;
+import rich.place.Police;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -19,7 +22,7 @@ public class PlayerVisitPoliceTest {
         player = new Player(map);
         dice = () -> 1;
 
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Police());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new Police(1));
 
         player.roll(dice);
 

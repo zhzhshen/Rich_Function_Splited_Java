@@ -1,6 +1,9 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import rich.*;
+import rich.place.GiftHouse;
+import rich.place.Place;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -24,7 +27,7 @@ public class PlayerVisitGiftHouseTest {
         dice = () -> 1;
 
         player.setCashBalance(1000);
-        when(map.move(any(Place.class), anyInt())).thenReturn(new GiftHouse());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new GiftHouse(1));
 
         player.roll(dice);
 

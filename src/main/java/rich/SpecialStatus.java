@@ -1,3 +1,5 @@
+package rich;
+
 public class SpecialStatus {
     private Player.GameStatus status;
     private int turnsLeft;

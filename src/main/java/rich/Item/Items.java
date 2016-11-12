@@ -1,3 +1,5 @@
+package rich.Item;
+
 public class Items {
     public static final Item ROAD_BLOCK = new Item("ROAD_BLOCK", 50);
     public static final Item ROBOT = new Item("ROBOT", 30);

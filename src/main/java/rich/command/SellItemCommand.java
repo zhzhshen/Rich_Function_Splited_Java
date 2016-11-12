@@ -1,3 +1,10 @@
+package rich.command;
+
+import rich.Item.Item;
+import rich.Item.Items;
+import rich.place.Place;
+import rich.Player;
+
 public class SellItemCommand implements Command {
     private int itemIndex;
 

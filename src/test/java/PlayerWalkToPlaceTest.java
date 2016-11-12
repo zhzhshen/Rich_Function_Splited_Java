@@ -1,5 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
+import rich.*;
+import rich.place.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -8,7 +10,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PlayerWalkTest {
+public class PlayerWalkToPlaceTest {
     GameMap map;
     Player player;
     Dice dice;
@@ -31,7 +33,7 @@ public class PlayerWalkTest {
 
     @Test
     public void should_turn_end_when_walk_to_hospital() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Hospital());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new Hospital(1));
 
         player.roll(dice);
 
@@ -40,7 +42,7 @@ public class PlayerWalkTest {
 
     @Test
     public void should_turn_end_when_walk_to_starting_point() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new StartingPoint());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new StartingPoint(1));
 
         player.roll(dice);
 
@@ -49,7 +51,7 @@ public class PlayerWalkTest {
 
     @Test
     public void should_turn_end_when_walk_to_magic_house() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new MagicHouse());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new MagicHouse(1));
 
         player.roll(dice);
 
@@ -58,7 +60,7 @@ public class PlayerWalkTest {
 
     @Test
     public void should_turn_end_when_walk_to_police() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new Police());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new Police(1));
 
         player.roll(dice);
 
@@ -67,7 +69,7 @@ public class PlayerWalkTest {
 
     @Test
     public void should_wait_for_input_when_walk_to_gift_house() {
-        when(map.move(any(Place.class), anyInt())).thenReturn(new GiftHouse());
+        when(map.move(any(Place.class), anyInt())).thenReturn(new GiftHouse(1));
 
         player.roll(dice);
 

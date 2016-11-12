@@ -1,6 +1,10 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import rich.Game;
+import rich.GameMap;
+import rich.Item.Items;
+import rich.Player;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

@@ -1,3 +1,5 @@
+package rich.Item;
+
 public class Item  {
     private final String name;
     private final int price;

@@ -1,6 +1,10 @@
+package rich.place;
+
+import rich.Player;
+
 public class Land implements Place {
     private static final int MAX_LEVEL = 3;
-    private int location;
+    private int position;
     private Player owner;
     private double unitPrice;
     private int level;
@@ -8,8 +12,8 @@ public class Land implements Place {
     public Land() {
     }
 
-    public Land(int location, double unitPrice, int level) {
-        this.location = location;
+    public Land(int position, double unitPrice, int level) {
+        this.position = position;
         this.unitPrice = unitPrice;
         this.level = level;
     }
@@ -44,24 +48,20 @@ public class Land implements Place {
         return MAX_LEVEL == level;
     }
 
-    public void action(Player player, Command command) {
-        command.action(this, player);
-    }
-
-    void charge(Player player) {
+    public void charge(Player player) {
         double charge = (unitPrice / 2) * Math.pow(2, level);
         if (player.reduceMoney(charge)) {
             owner.gainMoney(charge);
         }
     }
 
-    void builtBy(Player player) {
+    public void builtBy(Player player) {
         if (!isMaxLevel() && player.reduceMoney(unitPrice)) {
             level += 1;
         }
     }
 
-    void sellTo(Player player) {
+    public void sellTo(Player player) {
         if (player.reduceMoney(unitPrice)) {
             owner = player;
             player.gainLand(this);
@@ -70,5 +70,9 @@ public class Land implements Place {
 
     public double getPrice() {
         return unitPrice;
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

@@ -1,3 +1,8 @@
+package rich.command;
+
+import rich.place.Place;
+import rich.Player;
+
 public class SendGiftCommand implements Command{
     private int giftIndex;
 
