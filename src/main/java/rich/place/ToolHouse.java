@@ -16,4 +16,5 @@ public class ToolHouse implements Place {
     public int getPosition() {
         return position;
     }
+
 }
