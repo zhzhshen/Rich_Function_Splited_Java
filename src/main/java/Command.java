@@ -1,2 +1,3 @@
-public class Command {
+public interface Command {
+    void action(Place place, Player player);
 }

@@ -10,6 +10,7 @@ public class Player {
     private Place currentPlace;
     private List<Item> items = new ArrayList<>(MAX_ITEM);
     private int point;
+    private List<Land> lands = new ArrayList<>();
 
     public Player(GameMap map) {
         this.map = map;
@@ -64,7 +65,7 @@ public class Player {
         if (currentPlace.isInputRequired(this)) {
             status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {
-            currentPlace.action(this, 0);
+            currentPlace.action(this, new VisitLandCommand());
             status = Player.ControlStatus.TURN_END;
         }
         return status;
@@ -75,14 +76,14 @@ public class Player {
     }
 
     public void sayYes() {
-        currentPlace.action(this, 0);
+        currentPlace.action(this, new VisitLandCommand());
         status = Player.ControlStatus.TURN_END;
     }
 
     public void sayYesToByTool(int toolIndex) {
         if (currentPlace instanceof ToolHouse) {
             ToolHouse toolHouse = (ToolHouse) currentPlace;
-            toolHouse.action(this, toolIndex);
+            toolHouse.action(this, new BuyToolCommand(toolIndex));
         }
         status = Player.ControlStatus.WAIT_FOR_RESPOND;
     }
@@ -90,9 +91,17 @@ public class Player {
     public void chooseGift(int giftIndex) {
         if (currentPlace instanceof GiftHouse) {
             GiftHouse giftHouse = (GiftHouse) currentPlace;
-            giftHouse.action(this, giftIndex);
+            giftHouse.action(this, new SendGiftCommand(giftIndex));
         }
         status = Player.ControlStatus.TURN_END;
+    }
+
+    public List<Land> getLands() {
+        return lands;
+    }
+
+    public void gainLand(Land land) {
+        lands.add(land);
     }
 
     public List<Item> getItems() {
@@ -156,6 +165,11 @@ public class Player {
                 .findFirst()
                 .map(status -> status.getTurnsLeft())
                 .orElse(0);
+    }
+
+    public void sellLand(int placeIndex) {
+        Place place = map.getPlace(placeIndex);
+        place.action(this, new SellLandCommand());
     }
 
     public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}

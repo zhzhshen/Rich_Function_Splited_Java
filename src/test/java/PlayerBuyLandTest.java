@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 public class PlayerBuyLandTest {
     private static final double THOUSAND = 1000;
     private static final double HUNDRED = 100;
-    Land land = new Land(HUNDRED);
+    Land land = new Land(1, HUNDRED, 0);
     GameMap map;
     Player player;
 
@@ -41,6 +41,7 @@ public class PlayerBuyLandTest {
         player.sayYes();
 
         assertThat(land.getOwner(), is(player));
+        assertThat(player.getLands().size(), is(1));
         assertThat(player.getCashBalance(), is(THOUSAND - HUNDRED));
         assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
@@ -51,6 +52,7 @@ public class PlayerBuyLandTest {
         player.sayYes();
 
         assertEquals(land.getOwner(), null);
+        assertThat(player.getLands().size(), is(0));
         assertTrue(player.getCashBalance() == 0);
         assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }

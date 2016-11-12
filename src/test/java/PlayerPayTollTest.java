@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 public class PlayerPayTollTest {
     private static final double THOUSAND = 1000;
     private static final double HUNDRED = 100;
-    Land land = new Land(HUNDRED, 0);
+    Land land = new Land(1, HUNDRED, 0);
     GameMap map;
     Player player;
     Player owner;

@@ -3,7 +3,7 @@ public class Hospital implements Place {
         return false;
     }
 
-    public void action(Player player, int index) {
+    public void action(Player player, Command command) {
 
     }
 }

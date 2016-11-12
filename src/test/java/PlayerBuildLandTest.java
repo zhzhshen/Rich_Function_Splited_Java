@@ -14,7 +14,7 @@ public class PlayerBuildLandTest {
     private static final double THOUSAND = 1000;
     private static final double HUNDRED = 100;
     private static final int LEVEL = 0;
-    Land land = new Land(HUNDRED, LEVEL);
+    Land land = new Land(1, HUNDRED, LEVEL);
     GameMap map;
     Player player;
 

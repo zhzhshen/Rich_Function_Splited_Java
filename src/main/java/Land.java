@@ -1,5 +1,6 @@
 public class Land implements Place {
     private static final int MAX_LEVEL = 3;
+    private int location;
     private Player owner;
     private double unitPrice;
     private int level;
@@ -7,12 +8,9 @@ public class Land implements Place {
     public Land() {
     }
 
-    public Land(double unitPrice) {
+    public Land(int location, double unitPrice, int level) {
+        this.location = location;
         this.unitPrice = unitPrice;
-    }
-
-    public Land(double unitPrice, int level) {
-        this(unitPrice);
         this.level = level;
     }
 
@@ -22,10 +20,6 @@ public class Land implements Place {
 
     public Player getOwner() {
         return owner;
-    }
-
-    public double getUnitPrice() {
-        return unitPrice;
     }
 
     public boolean isInputRequired(Player player) {
@@ -50,36 +44,31 @@ public class Land implements Place {
         return MAX_LEVEL == level;
     }
 
-    public void action(Player player, int index) {
-        if (owner == null) {
-            sellTo(player);
-        } else if (owner.equals(player)) {
-            builtBy(player);
-        } else {
-            if (!owner.isInHospital()
-                    && !owner.isInPrison()
-                    && !player.hasEvisu()) {
-                charge(player);
-            }
-        }
+    public void action(Player player, Command command) {
+        command.action(this, player);
     }
 
-    private void charge(Player player) {
+    void charge(Player player) {
         double charge = (unitPrice / 2) * Math.pow(2, level);
         if (player.reduceMoney(charge)) {
             owner.gainMoney(charge);
         }
     }
 
-    private void builtBy(Player player) {
+    void builtBy(Player player) {
         if (!isMaxLevel() && player.reduceMoney(unitPrice)) {
             level += 1;
         }
     }
 
-    private void sellTo(Player player) {
+    void sellTo(Player player) {
         if (player.reduceMoney(unitPrice)) {
             owner = player;
+            player.gainLand(this);
         }
+    }
+
+    public double getPrice() {
+        return unitPrice;
     }
 }
