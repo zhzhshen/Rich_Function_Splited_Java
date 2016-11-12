@@ -43,8 +43,20 @@ public class Player {
         return point;
     }
 
+    public void setPointBalance(int point) {
+        this.point = point;
+    }
+
     public void gainPoint(int amount) {
         point += amount;
+    }
+
+    public boolean reducePoint(int amount) {
+        if (getPoint() >= amount) {
+            point -= amount;
+            return true;
+        }
+        return false;
     }
 
     public ControlStatus roll(Dice dice) {
