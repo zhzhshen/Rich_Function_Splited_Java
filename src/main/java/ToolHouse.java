@@ -13,7 +13,7 @@ public class ToolHouse implements Place{
         return true;
     }
 
-    public void action(Player player) {
+    public void actionOn(Player player) {
 
     }
 

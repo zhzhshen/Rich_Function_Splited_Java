@@ -27,14 +27,18 @@ public class Player {
         if (currentPlace.isInputRequired(this)) {
             status = ControlStatus.WAIT_FOR_INPUT;
         } else {
-            currentPlace.action(this);
+            currentPlace.actionOn(this);
             status = ControlStatus.TURN_END;
         }
         return status;
     }
 
+    public void sayNo() {
+        status = ControlStatus.TURN_END;
+    }
+
     public void sayYes() {
-        this.currentPlace.action(this);
+        this.currentPlace.actionOn(this);
         status = ControlStatus.TURN_END;
     }
 
@@ -47,16 +51,20 @@ public class Player {
         status = ControlStatus.WAIT_FOR_INPUT;
     }
 
+    public void chooseGift(int giftIndex) {
+        if (currentPlace instanceof GiftHouse) {
+            GiftHouse giftHouse = (GiftHouse) currentPlace;
+//            giftHouse.repond(this, giftIndex);
+        }
+        status = ControlStatus.TURN_END;
+    }
+
     protected boolean reduceMoney(double amount) {
         if (getCashBalance() >= amount) {
             cashBalance -= amount;
             return true;
         }
         return false;
-    }
-
-    public void sayNo() {
-        status = ControlStatus.TURN_END;
     }
 
     public void setCashBalance(double cashBalance) {

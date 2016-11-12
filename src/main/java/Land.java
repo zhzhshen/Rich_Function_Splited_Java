@@ -50,7 +50,7 @@ public class Land implements Place, Buyable {
         return MAX_LEVEL == level;
     }
 
-    public void action(Player player) {
+    public void actionOn(Player player) {
         if (owner == null) {
             sellTo(player);
         } else if (owner.equals(player)) {

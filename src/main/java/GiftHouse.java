@@ -1,6 +1,6 @@
-public class Hospital implements Place {
+public class GiftHouse implements Place {
     public boolean isInputRequired(Player player) {
-        return false;
+        return true;
     }
 
     public void actionOn(Player player) {

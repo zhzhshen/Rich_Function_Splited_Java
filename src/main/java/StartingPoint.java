@@ -1,4 +1,4 @@
-public class Hospital implements Place {
+public class StartingPoint implements Place {
     public boolean isInputRequired(Player player) {
         return false;
     }
