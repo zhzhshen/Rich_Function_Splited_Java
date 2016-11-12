@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,10 +40,8 @@ public class PlayerSellLandTest {
     public void should_success_to_sell_land_when_sell_command() {
         player1.sellLand(1);
 
-        assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE));
+        assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE * 2));
         assertThat(land.getOwner(), is(nullValue()));
-        assertThat(game.getCurrentPlayer(), is(player1));
-        assertThat(player1.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
     }
 
     @Test
@@ -51,16 +50,20 @@ public class PlayerSellLandTest {
 
         assertThat(player1.getCashBalance(), is(INITIAL_BALABCE));
         assertThat(otherLand.getOwner(), is(player2));
-        assertThat(game.getCurrentPlayer(), is(player1));
-        assertThat(player1.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
     }
 
     @Test
-    public void should_success_to_sell_land_when_belong_to_other() {
-        player1.sellLand(2);
+    public void should_success_to_sell_land_when_level_three() {
+        land.setLevel(3);
+        when(map.getPlace(eq(1))).thenReturn(land);
+        player1.sellLand(1);
 
-        assertThat(player1.getCashBalance(), is(INITIAL_BALABCE));
-        assertThat(otherLand.getOwner(), is(player2));
+        assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE * 8));
+        assertThat(land.getOwner(), is(nullValue()));
+    }
+
+    @After
+    public void after() {
         assertThat(game.getCurrentPlayer(), is(player1));
         assertThat(player1.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
     }
