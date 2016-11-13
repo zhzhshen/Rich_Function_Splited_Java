@@ -22,4 +22,8 @@ public class Mine implements Place {
     public int getPoint() {
         return point;
     }
+
+    public void visitBy(Player player) {
+        player.gainPoint(point);
+    }
 }

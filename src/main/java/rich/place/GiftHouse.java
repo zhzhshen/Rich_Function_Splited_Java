@@ -16,4 +16,9 @@ public class GiftHouse implements Place {
     public int getPosition() {
         return position;
     }
+
+    @Override
+    public void visitBy(Player player) {
+
+    }
 }

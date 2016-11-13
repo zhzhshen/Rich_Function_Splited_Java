@@ -72,4 +72,12 @@ public class Land implements Place {
     public int getPosition() {
         return position;
     }
+
+    public void visitBy(Player player) {
+        if (!owner.isInHospital()
+                && !owner.isInPrison()
+                && !player.hasEvisu()) {
+            charge(player);
+        }
+    }
 }

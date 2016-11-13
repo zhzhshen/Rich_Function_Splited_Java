@@ -17,4 +17,9 @@ public class Hospital implements Place {
         return position;
     }
 
+    @Override
+    public void visitBy(Player player) {
+
+    }
+
 }

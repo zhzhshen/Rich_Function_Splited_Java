@@ -17,4 +17,8 @@ public class Police implements Place {
         return position;
     }
 
+    public void visitBy(Player player) {
+        player.prisoned();
+    }
+
 }

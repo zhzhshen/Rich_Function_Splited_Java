@@ -17,4 +17,9 @@ public class ToolHouse implements Place {
         return position;
     }
 
+    @Override
+    public void visitBy(Player player) {
+
+    }
+
 }
