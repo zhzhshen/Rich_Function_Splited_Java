@@ -58,4 +58,11 @@ public class Estate implements Place {
     public int getPosition() {
         return position;
     }
+
+    public double sell() {
+        double charge = price * Math.pow(2, level);
+        owner = null;
+        level = 0;
+        return charge;
+    }
 }

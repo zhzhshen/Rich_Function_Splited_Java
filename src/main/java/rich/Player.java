@@ -136,6 +136,16 @@ public class Player {
         item.use(this, steps);
     }
 
+    public void sell(int position) {
+        Place place = map.getPlace(position);
+        if (place != null && place instanceof Estate) {
+            Estate estate = (Estate) place;
+            if (this.equals(estate.getOwner())) {
+                gainMoney(estate.sell());
+            }
+        }
+    }
+
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
 
     public enum SpecialStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}

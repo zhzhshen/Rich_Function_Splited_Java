@@ -51,4 +51,8 @@ public class GameMap {
             current = moveStepForward(current, 1);
         }
     }
+
+    public Place getPlace(int position) {
+        return places.stream().filter(place -> place.getPosition() == position).findFirst().orElse(null);
+    }
 }
