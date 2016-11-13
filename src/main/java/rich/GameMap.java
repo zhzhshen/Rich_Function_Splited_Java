@@ -26,8 +26,7 @@ public class GameMap {
             int itemPosition = itemEntry.getKey();
             Item item = itemEntry.getValue();
             int destination = (player.getCurrentPlace().getPosition() + step - 1) % places.size() + 1;
-            boolean reach = isInBetween(itemPosition, player.getCurrentPlace().getPosition(), destination);
-            if (reach) {
+            if (isInBetween(itemPosition, player.getCurrentPlace().getPosition(), destination)) {
                 iterator.remove();
                 if (item instanceof RoadBlock) {
                     return getPlace(itemPosition - 1);

@@ -77,7 +77,7 @@ public class PlayerWalkOnMapTest {
     }
 
     @Test
-    public void should_stop_when_reach_road_block() {
+    public void should_stop_at_hospital_when_reach_road_block() {
         RoadBlock roadBlock = new RoadBlock(50);
         player.addItem(roadBlock);
         player.useItem(UserItemCommand.USE_ROAD_BLOCK, 3);
@@ -89,6 +89,21 @@ public class PlayerWalkOnMapTest {
         assertThat(player.getCurrentPlace(), is(hospital));
         assertThat(player.getControlStatus(), is(Player.ControlStatus.TURN_END));
         assertThat(map.getItemAt(3), is(nullValue()));
+    }
+
+    @Test
+    public void should_stop_at_empty_land_and_able_to_buy_when_reach_road_block() {
+        RoadBlock roadBlock = new RoadBlock(50);
+        player.addItem(roadBlock);
+        player.useItem(UserItemCommand.USE_ROAD_BLOCK, 2);
+
+        when(dice.roll()).thenReturn(3);
+
+        player.roll(dice);
+
+        assertThat(player.getCurrentPlace(), is(land));
+        assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_RESPOND));
+        assertThat(map.getItemAt(2), is(nullValue()));
     }
 
     @Test
