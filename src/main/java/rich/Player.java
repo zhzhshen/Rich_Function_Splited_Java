@@ -12,6 +12,7 @@ public class Player {
     private List<Place> lands;
     private List<SpecialStatus> specialStatus = new ArrayList();
     private int point;
+    private List<Item> items = new ArrayList();
 
     public Player(GameMap map, double balance, int point) {
         this.map = map;
@@ -111,6 +112,22 @@ public class Player {
 
     public void gainPoint(int amount) {
         point += amount;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public boolean reducePoint(int amount) {
+        if (point >= amount) {
+            point -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public void addItem(Item item) {
+        items.add(item);
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}

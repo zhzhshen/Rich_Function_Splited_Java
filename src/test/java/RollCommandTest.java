@@ -20,6 +20,10 @@ public class RollCommandTest {
     private Estate estate;
     private StartingPoint startingPoint;
     private GiftHouse giftHouse;
+    private MagicHouse magicHouse;
+    private Hospital hospital;
+    private Police police;
+    private ToolHouse toolHouse;
 
     @Before
     public void before() {
@@ -28,8 +32,13 @@ public class RollCommandTest {
         estate = new Estate(ESTATE_PICE);
         startingPoint = new StartingPoint();
         giftHouse = new GiftHouse();
+        magicHouse = new MagicHouse();
+        hospital = new Hospital();
+        police = new Police();
+        toolHouse = new ToolHouse();
         player = new Player(map, INITIAL_BALANCE, INITIAL_POINT);
     }
+
     @Test
     public void should_move_user_to_correspond_place() {
         when(map.move(eq(player), anyInt())).thenReturn(estate);
@@ -271,7 +280,7 @@ public class RollCommandTest {
     @Test
     public void should_turn_end_gain_money_if_walk_to_gift_house_respond_1() {
         should_wait_for_response_if_walk_to_gift_house();
-        
+
         player.respond(ChooseGiftResponse.Money);
 
         assertThat(player.getStatus(), is(Player.Status.TURN_END));
@@ -296,5 +305,153 @@ public class RollCommandTest {
 
         assertThat(player.getStatus(), is(Player.Status.TURN_END));
         assertThat(player.hasEvisu(), is(true));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_magic_house() {
+        when(map.move(eq(player), anyInt())).thenReturn(magicHouse);
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_hospital() {
+        when(map.move(eq(player), anyInt())).thenReturn(hospital);
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_turn_end_in_prison_if_walk_to_police() {
+        when(map.move(eq(player), anyInt())).thenReturn(police);
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+        assertThat(player.isInPrison(), is(true));
+    }
+
+    @Test
+    public void should_wait_for_response_if_walk_to_tool_house() {
+        when(map.move(eq(player), anyInt())).thenReturn(toolHouse);
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_tool_house_no_point_for_cheapest_item() {
+        player.reducePoint(INITIAL_POINT - 20);
+        when(map.move(eq(player), anyInt())).thenReturn(toolHouse);
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_wait_for_response_buyed_barricade_if_walk_to_tool_house_respond_1() {
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Barricade);
+
+        assertThat(player.getPoint(), is(INITIAL_POINT - 50));
+        assertThat(player.getItems().size(), is(1));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_wait_for_response_buyed_robot_if_walk_to_tool_house_respond_2() {
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Robot);
+
+        assertThat(player.getPoint(), is(INITIAL_POINT - 30));
+        assertThat(player.getItems().size(), is(1));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_wait_for_response_buyed_bomb_if_walk_to_tool_house_respond_3() {
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Bomb);
+
+        assertThat(player.getPoint(), is(INITIAL_POINT - 50));
+        assertThat(player.getItems().size(), is(1));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_tool_house_respond_not_to_buy() {
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.No);
+
+        assertThat(player.getPoint(), is(INITIAL_POINT));
+        assertThat(player.getItems().size(), is(0));
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_wait_for_response_failed_buy_bomb_if_walk_to_tool_house_respond_to_buy_without_enought_point() {
+        player.reducePoint(INITIAL_POINT - 40);
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Bomb);
+
+        assertThat(player.getPoint(), is(40));
+        assertThat(player.getItems().size(), is(0));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_wait_for_response_failed_buy_barricade_if_walk_to_tool_house_respond_to_buy_without_enought_point() {
+        player.reducePoint(INITIAL_POINT - 40);
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Barricade);
+
+        assertThat(player.getPoint(), is(40));
+        assertThat(player.getItems().size(), is(0));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_tool_house_buyed_bomb_then_no_money_for_cheapest() {
+        player.reducePoint(INITIAL_POINT - 50);
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Bomb);
+
+        assertThat(player.getPoint(), is(0));
+        assertThat(player.getItems().size(), is(1));
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_tool_house_buyed_two_item() {
+        player.reducePoint(INITIAL_POINT - 100);
+        should_wait_for_response_if_walk_to_tool_house();
+
+        player.respond(BuyToolResponse.Buy_Bomb);
+        assertThat(player.getPoint(), is(50));
+        assertThat(player.getItems().size(), is(1));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
+
+        player.respond(BuyToolResponse.Buy_Barricade);
+        assertThat(player.getPoint(), is(0));
+        assertThat(player.getItems().size(), is(2));
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
     }
 }
