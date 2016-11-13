@@ -10,6 +10,7 @@ public class Player {
     private GameMap map;
     private double balance;
     private List<Place> lands;
+    private List<SpecialStatus> specialStatus = new ArrayList();
 
     public Player(GameMap map, double balance) {
         this.map = map;
@@ -68,5 +69,35 @@ public class Player {
         return false;
     }
 
+    public void gainMoney(double amount) {
+        balance += amount;
+    }
+
+    public void burn() {
+        specialStatus.add(SpecialStatus.IN_HOSPITAL);
+    }
+
+    public boolean isInHospital() {
+        return specialStatus.contains(SpecialStatus.IN_HOSPITAL);
+    }
+
+    public void prisoned() {
+        specialStatus.add(SpecialStatus.IN_PRISON);
+    }
+
+    public boolean isInPrison() {
+        return specialStatus.contains(SpecialStatus.IN_PRISON);
+    }
+
+    public void evisu() {
+        specialStatus.add(SpecialStatus.HAS_EVISU);
+    }
+
+    public boolean hasEvisu() {
+        return specialStatus.contains(SpecialStatus.HAS_EVISU);
+    }
+
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
+
+    public enum SpecialStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}
 }

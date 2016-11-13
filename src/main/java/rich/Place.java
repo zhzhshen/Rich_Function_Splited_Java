@@ -12,4 +12,6 @@ public interface Place {
     int getLevel();
 
     boolean isMaxLevel();
+
+    void charge(Player player);
 }

@@ -34,4 +34,13 @@ public class Estate implements Place{
     public boolean isMaxLevel() {
         return level == MAX_LEVEL;
     }
+
+    public void charge(Player player) {
+        if (owner.isInHospital() || owner.isInPrison() || player.hasEvisu()) {
+            return;
+        }
+        double charge = 0.5 * price * Math.pow(2, level);
+        player.reduceMoney(charge);
+        owner.gainMoney(charge);
+    }
 }
