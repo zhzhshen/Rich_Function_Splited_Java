@@ -1,4 +1,5 @@
 package rich;
 
-public class Response {
+public interface Response {
+    Player.Status execute(Player player);
 }

@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 import rich.Command;
+import rich.GameMap;
 import rich.Player;
 import rich.Response;
 
@@ -13,11 +14,13 @@ import static org.mockito.Mockito.when;
 public class PlayerTest {
     private Player player;
     private Command command;
+    private GameMap map;
 
     @Before
     public void before() {
-        player = new Player();
+        map = mock(GameMap.class);
         command = mock(Command.class);
+        player = new Player(map, 0);
     }
 
     @Test
