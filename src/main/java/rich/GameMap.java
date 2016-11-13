@@ -1,5 +1,9 @@
 package rich;
 
+import rich.item.Item;
+import rich.place.Place;
+import rich.place.StartingPoint;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

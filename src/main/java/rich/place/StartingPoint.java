@@ -1,4 +1,6 @@
-package rich;
+package rich.place;
+
+import rich.Player;
 
 public class StartingPoint implements Place {
     private int position;

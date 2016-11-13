@@ -1,5 +1,11 @@
 package rich;
 
+import rich.command.Command;
+import rich.item.Item;
+import rich.place.Estate;
+import rich.place.Place;
+import rich.response.Response;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,7 @@
-package rich;
+package rich.response;
+
+import rich.Player;
+import rich.place.Estate;
 
 public interface BuyLandResponse {
     Response No = player -> Player.Status.TURN_END;

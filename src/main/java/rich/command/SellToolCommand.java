@@ -1,4 +1,10 @@
-package rich;
+package rich.command;
+
+import rich.Player;
+import rich.response.Response;
+import rich.item.Barricade;
+import rich.item.Bomb;
+import rich.item.Robot;
 
 public class SellToolCommand implements Command {
     private int index;

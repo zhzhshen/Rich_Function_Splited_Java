@@ -1,4 +1,7 @@
-package rich;
+package rich.command;
+
+import rich.Player;
+import rich.response.Response;
 
 public class SellCommand implements Command {
     private int position;

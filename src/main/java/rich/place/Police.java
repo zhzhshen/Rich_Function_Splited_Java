@@ -1,13 +1,16 @@
-package rich;
+package rich.place;
 
-public class MagicHouse implements Place {
+import rich.Player;
+
+public class Police implements Place {
     private int position;
 
-    public MagicHouse(int position) {
+    public Police(int position) {
         this.position = position;
     }
 
     public Player.Status visitedBy(Player player) {
+        player.prisoned();
         return Player.Status.TURN_END;
     }
 

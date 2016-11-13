@@ -1,6 +1,11 @@
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
+import rich.command.RollCommand;
+import rich.place.*;
+import rich.response.BuyLandResponse;
+import rich.response.BuyToolResponse;
+import rich.response.ChooseGiftResponse;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

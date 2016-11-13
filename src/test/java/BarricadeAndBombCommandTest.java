@@ -2,6 +2,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
+import rich.command.UseBarricadeCommand;
+import rich.command.UseBombCommand;
+import rich.item.Barricade;
+import rich.item.Bomb;
+import rich.place.Estate;
+import rich.place.StartingPoint;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

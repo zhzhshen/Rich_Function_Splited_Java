@@ -1,4 +1,9 @@
-package rich;
+package rich.command;
+
+import rich.Dice;
+import rich.Player;
+import rich.response.Response;
+import rich.place.Place;
 
 public class RollCommand implements Command {
     private Dice dice;

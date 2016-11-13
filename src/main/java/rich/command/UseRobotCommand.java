@@ -1,14 +1,12 @@
-package rich;
+package rich.command;
 
-public class UseBombCommand implements Command {
-    private int steps;
+import rich.Player;
+import rich.response.Response;
+import rich.item.Robot;
 
-    public UseBombCommand(int steps) {
-        this.steps = steps;
-    }
-
+public class UseRobotCommand implements Command {
     public Player.Status execute(Player player) {
-        player.use(new Bomb(), steps);
+        player.use(new Robot(), 0);
         return Player.Status.WAIT_FOR_COMMAND;
     }
 

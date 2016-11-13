@@ -1,4 +1,6 @@
-package rich;
+package rich.response;
+
+import rich.Player;
 
 public interface ChooseGiftResponse {
     int GIFT_MONEY = 2000;

@@ -1,4 +1,9 @@
-package rich;
+package rich.place;
+
+import rich.Player;
+import rich.item.Barricade;
+import rich.item.Bomb;
+import rich.item.Robot;
 
 public class ToolHouse implements Place {
     private int position;

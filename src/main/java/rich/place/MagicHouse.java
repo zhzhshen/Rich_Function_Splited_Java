@@ -1,9 +1,11 @@
-package rich;
+package rich.place;
 
-public class Hospital implements Place {
+import rich.Player;
+
+public class MagicHouse implements Place {
     private int position;
 
-    public Hospital(int position) {
+    public MagicHouse(int position) {
         this.position = position;
     }
 

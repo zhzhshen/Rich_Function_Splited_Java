@@ -1,4 +1,6 @@
-package rich;
+package rich.item;
+
+import rich.Player;
 
 public class Robot implements Item {
     public static final int Price = 30;

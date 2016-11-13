@@ -1,17 +1,18 @@
-package rich;
+package rich.place;
 
-public class GiftHouse implements Place{
+import rich.Player;
+
+public class Hospital implements Place {
     private int position;
 
-    public GiftHouse(int position) {
+    public Hospital(int position) {
         this.position = position;
     }
 
     public Player.Status visitedBy(Player player) {
-        return Player.Status.WAIT_FOR_RESPONSE;
+        return Player.Status.TURN_END;
     }
 
-    @Override
     public int getPosition() {
         return position;
     }

@@ -1,4 +1,6 @@
-package rich;
+package rich.place;
+
+import rich.Player;
 
 public class Estate implements Place {
     private static final int MAX_LEVEL = 3;

@@ -2,6 +2,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
+import rich.command.UseBombCommand;
+import rich.command.UseRobotCommand;
+import rich.item.Bomb;
+import rich.item.Robot;
+import rich.place.Estate;
+import rich.place.StartingPoint;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

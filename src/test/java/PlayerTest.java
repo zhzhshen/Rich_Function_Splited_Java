@@ -1,9 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import rich.Command;
+import rich.command.Command;
 import rich.GameMap;
 import rich.Player;
-import rich.Response;
+import rich.response.Response;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

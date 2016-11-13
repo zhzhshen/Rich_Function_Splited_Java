@@ -2,6 +2,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
+import rich.command.SellCommand;
+import rich.place.Estate;
+import rich.place.StartingPoint;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

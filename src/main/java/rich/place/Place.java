@@ -1,4 +1,6 @@
-package rich;
+package rich.place;
+
+import rich.Player;
 
 public interface Place {
     Player.Status visitedBy(Player player);

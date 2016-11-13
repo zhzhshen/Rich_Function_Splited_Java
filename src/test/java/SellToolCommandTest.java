@@ -2,6 +2,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
+import rich.command.SellToolCommand;
+import rich.item.Barricade;
+import rich.item.Bomb;
+import rich.item.Robot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
