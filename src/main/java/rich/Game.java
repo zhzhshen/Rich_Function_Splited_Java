@@ -12,7 +12,7 @@ public class Game {
     public Game(GameMap map, Player... players) {
         this.map = map;
         this.players.addAll(Arrays.asList(players));
-        map.addPlayers(players);
+        this.map.addPlayers(players);
         currentPlayer = 0;
     }
 

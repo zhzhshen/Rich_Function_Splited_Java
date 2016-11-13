@@ -3,6 +3,7 @@ import org.junit.Test;
 import rich.Game;
 import rich.GameMap;
 import rich.Item.Bomb;
+import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
@@ -17,9 +18,9 @@ public class UseItemTest {
     private Game game;
     private GameMap map;
     private Player player;
-    Bomb bomb = new Bomb(50);
-    RoadBlock roadBlock = new RoadBlock(50);
-    Robot robot = new Robot(30);
+    Item bomb = new Bomb(50);
+    Item roadBlock = new RoadBlock(50);
+    Item robot = new Robot(30);
     private Place startingPoint;
     private Place land;
     private Place hospital;
@@ -32,7 +33,7 @@ public class UseItemTest {
         hospital = new Hospital(3);
         toolHouse = new ToolHouse(4);
         map = new GameMap(startingPoint, land, land, land, land, land, land, land, land, land, hospital, toolHouse);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
         player.addItem(bomb);
         game = new Game(map, player);
 

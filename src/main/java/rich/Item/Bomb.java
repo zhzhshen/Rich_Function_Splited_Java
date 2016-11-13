@@ -2,14 +2,9 @@ package rich.Item;
 
 public class Bomb implements Item {
     private int price;
-    private int position;
 
     public Bomb(int price) {
         this.price = price;
-    }
-
-    public int getPosition() {
-        return position;
     }
 
     public int getPrice() {
@@ -23,15 +18,12 @@ public class Bomb implements Item {
 
         Bomb bomb = (Bomb) o;
 
-        if (price != bomb.price) return false;
-        return position == bomb.position;
+        return price == bomb.price;
 
     }
 
     @Override
     public int hashCode() {
-        int result = price;
-        result = 31 * result + position;
-        return result;
+        return price;
     }
 }

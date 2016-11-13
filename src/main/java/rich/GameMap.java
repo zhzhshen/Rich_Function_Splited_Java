@@ -18,15 +18,14 @@ public class GameMap {
     }
 
     public Place move(Player player, int step) {
-        int position = 0;
-
         Iterator<Map.Entry<Integer, Item>> iterator = items.entrySet().iterator();
+        int origin = player.getCurrentPlace().getPosition();
+        int destination = movePositionForward(origin, step) + 1;
         while (iterator.hasNext()) {
             Map.Entry<Integer, Item> itemEntry = iterator.next();
             int itemPosition = itemEntry.getKey();
             Item item = itemEntry.getValue();
-            int destination = (player.getCurrentPlace().getPosition() + step - 1) % places.size() + 1;
-            if (isInBetween(itemPosition, player.getCurrentPlace().getPosition(), destination)) {
+            if (isInBetween(itemPosition, origin, destination)) {
                 iterator.remove();
                 if (item instanceof RoadBlock) {
                     return getPlace(itemPosition - 1);
@@ -37,12 +36,11 @@ public class GameMap {
             }
         }
 
-        if (player.getCurrentPlace() != null) {
-            position = player.getCurrentPlace().getPosition() - 1;
-        }
+        return getPlace(destination - 1);
+    }
 
-        position = (position + step) % places.size();
-        return getPlace(position);
+    private int movePositionForward(int origin, int step) {
+        return (origin - 1 + step) % places.size();
     }
 
     private Place getHospital() {

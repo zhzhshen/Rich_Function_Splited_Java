@@ -24,7 +24,7 @@ public class PlayerVisitGiftHouseTest {
     @Before
     public void before() throws Exception {
         map = mock(GameMap.class);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
         dice = () -> 1;
 
         player.setCashBalance(1000);

@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 import rich.GameMap;
 import rich.Item.Bomb;
+import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
@@ -22,15 +23,15 @@ public class PlayerBuyToolTest {
     ToolHouse toolHouse;
     GameMap map;
     Player player;
-    private RoadBlock roadBlock = new RoadBlock(50);
-    private Robot robot = new Robot(30);
-    private Bomb bomb = new Bomb(50);
+    private Item roadBlock = new RoadBlock(50);
+    private Item robot = new Robot(30);
+    private Item bomb = new Bomb(50);
 
     @Before
     public void setUp() throws Exception {
         map = mock(GameMap.class);
         toolHouse = new ToolHouse(1);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
 
         when(map.move(eq(player), anyInt())).thenReturn(toolHouse);
 

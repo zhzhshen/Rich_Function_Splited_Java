@@ -21,9 +21,11 @@ public class Player {
     private List<Item> items = new ArrayList<>(MAX_ITEM);
     private List<Land> lands = new ArrayList<>();
 
-    public Player(GameMap map) {
-        this.map = map;
+    public Player(GameMap map, double cashBalance, int point) {
         this.currentPlace = map.getPlace(0);
+        this.map = map;
+        this.cashBalance = cashBalance;
+        this.point = point;
     }
 
     public ControlStatus getControlStatus() {

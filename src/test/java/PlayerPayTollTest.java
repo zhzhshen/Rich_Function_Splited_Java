@@ -23,9 +23,9 @@ public class PlayerPayTollTest {
     @Before
     public void setUp() throws Exception {
         map = mock(GameMap.class);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
         player.setCashBalance(THOUSAND);
-        owner = new Player(map);
+        owner = new Player(map, 10000, 0);
         owner.setCashBalance(THOUSAND);
         land.setOwner(owner);
 

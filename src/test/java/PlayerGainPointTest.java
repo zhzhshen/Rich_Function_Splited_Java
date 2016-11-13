@@ -20,7 +20,7 @@ public class PlayerGainPointTest {
     @Test
     public void should_success_to_gain_money() {
         map = mock(GameMap.class);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
         dice = () -> 1;
 
         when(map.move(eq(player), eq(1))).thenReturn(new Mine(1, 50));

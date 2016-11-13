@@ -26,9 +26,9 @@ public class PlayerSellLandTest {
     @Before
     public void before() {
         map = mock(GameMap.class);
-        player1 = new Player(map);
+        player1 = new Player(map, 10000, 0);
         player1.setCashBalance(INITIAL_BALABCE);
-        player2 = new Player(map);
+        player2 = new Player(map, 10000, 0);
         game = new Game(map, player1, player2);
         land = new Land(1, LAND_PRICE, 0);
         land.setOwner(player1);

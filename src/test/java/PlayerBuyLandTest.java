@@ -21,7 +21,7 @@ public class PlayerBuyLandTest {
     @Before
     public void setUp() throws Exception {
         map = mock(GameMap.class);
-        player = new Player(map);
+        player = new Player(map, 10000, 0);
 
         when(map.move(eq(player), anyInt())).thenReturn(land);
 

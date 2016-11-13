@@ -2,14 +2,9 @@ package rich.Item;
 
 public class RoadBlock implements Item {
     private int price;
-    private int position;
 
     public RoadBlock(int price) {
         this.price = price;
-    }
-
-    public int getPosition() {
-        return position;
     }
 
     public int getPrice() {
@@ -23,15 +18,12 @@ public class RoadBlock implements Item {
 
         RoadBlock roadBlock = (RoadBlock) o;
 
-        if (price != roadBlock.price) return false;
-        return position == roadBlock.position;
+        return price == roadBlock.price;
 
     }
 
     @Override
     public int hashCode() {
-        int result = price;
-        result = 31 * result + position;
-        return result;
+        return price;
     }
 }

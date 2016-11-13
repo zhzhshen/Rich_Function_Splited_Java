@@ -17,8 +17,8 @@ public class TurnTest {
     @Before
     public void before() {
         map = mock(GameMap.class);
-        player1 = new Player(map);
-        player2 = new Player(map);
+        player1 = new Player(map, 10000, 0);
+        player2 = new Player(map, 10000, 0);
         game = new Game(map, player1, player2);
 
     }
