@@ -1,6 +1,7 @@
 package rich.item;
 
 import rich.Player;
+import rich.place.Place;
 
 public class Barricade implements Item {
     public static final int Price = 50;
@@ -13,12 +14,14 @@ public class Barricade implements Item {
         }
     }
 
-    @Override
     public int getPoint() {
         return Price;
     }
 
-    @Override
+    public Place trigger(Player player, int position) {
+        return player.getMap().getPlace(position);
+    }
+
     public boolean equals(Object obj) {
         return obj instanceof Barricade;
     }

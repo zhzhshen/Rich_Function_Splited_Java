@@ -1,6 +1,7 @@
 package rich.item;
 
 import rich.Player;
+import rich.place.Place;
 
 public class Bomb implements Item {
     public static final int Price = 50;
@@ -13,9 +14,13 @@ public class Bomb implements Item {
         }
     }
 
-    @Override
     public int getPoint() {
         return Price;
+    }
+
+    public Place trigger(Player player, int position) {
+        player.burn();
+        return player.getMap().getHospital();
     }
 
     @Override

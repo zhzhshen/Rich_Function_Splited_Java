@@ -1,6 +1,7 @@
 package rich;
 
 import rich.item.Item;
+import rich.place.Hospital;
 import rich.place.Place;
 import rich.place.StartingPoint;
 
@@ -23,7 +24,15 @@ public class GameMap {
     }
 
     public Place move(Player player, int steps) {
-        return null;
+        int current = player.getCurrentPlace().getPosition();
+        for (int i = 0; i < steps; i++) {
+            if (items.containsKey(current)) {
+                Item item = items.get(current);
+                return item.trigger(player, current);
+            }
+            current = moveStepForward(current, 1);
+        }
+        return getPlace(current);
     }
 
     public Item getItemAt(int position) {
@@ -58,5 +67,9 @@ public class GameMap {
 
     public Place getPlace(int position) {
         return places.stream().filter(place -> place.getPosition() == position).findFirst().orElse(null);
+    }
+
+    public Place getHospital() {
+        return places.stream().filter(place -> place instanceof Hospital).findFirst().get();
     }
 }
