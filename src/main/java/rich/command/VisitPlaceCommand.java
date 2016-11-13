@@ -3,6 +3,7 @@ package rich.command;
 import rich.GameMap;
 import rich.Player;
 import rich.place.Land;
+import rich.place.Mine;
 import rich.place.Place;
 import rich.place.Police;
 
@@ -26,6 +27,11 @@ public class VisitPlaceCommand implements Command {
 
         if (place instanceof Police) {
             player.prisoned();
+        }
+
+        if (place instanceof Mine) {
+            Mine mine = (Mine) place;
+            player.gainPoint(mine.getPoint());
         }
     }
 }
