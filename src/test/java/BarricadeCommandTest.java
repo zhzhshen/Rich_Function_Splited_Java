@@ -38,6 +38,17 @@ public class BarricadeCommandTest {
     }
 
     @Test
+    public void should_wait_for_command_succes_to_place_bomb() {
+        Bomb bomb = new Bomb();
+        player.addItem(bomb);
+        player.execute(new UseBombCommand(2));
+
+        assertThat(player.getItems().size(), is(0));
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+        assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(bomb));
+    }
+
+    @Test
     public void should_wait_for_command_fail_to_place_barricade_further_than_10_steps() {
         Barricade barricade = new Barricade();
         player.addItem(barricade);

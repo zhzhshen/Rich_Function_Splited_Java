@@ -2,7 +2,7 @@ package rich;
 
 public class UseRobotCommand implements Command {
     public Player.Status execute(Player player) {
-        player.useRobot();
+        player.use(new Robot(), 0);
         return Player.Status.WAIT_FOR_COMMAND;
     }
 

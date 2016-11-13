@@ -18,7 +18,7 @@ public class RobotCommandTest {
 
         bomb = new Bomb();
         player.addItem(bomb);
-        player.useBomb(2);
+        player.execute(new UseBombCommand(2));
 
         assertThat(player.getItems().size(), is(0));
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));

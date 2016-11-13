@@ -132,30 +132,8 @@ public class Player {
         items.add(item);
     }
 
-    public void useBarricade(int steps) {
-        if (steps > 10) return;
-        Item barricade = items.stream().filter(item -> item instanceof Barricade).findFirst().orElse(null);
-        if (barricade != null
-                && map.putItemStepsForward(barricade, currentPlace.getPosition(), steps)) {
-            items.remove(barricade);
-        }
-    }
-
-    public void useBomb(int steps) {
-        if (steps > 10) return;
-        Item bomb = items.stream().filter(item -> item instanceof Bomb).findFirst().orElse(null);
-        if (bomb != null
-                && map.putItemStepsForward(bomb, currentPlace.getPosition(), steps)) {
-            items.remove(bomb);
-        }
-    }
-
-    public void useRobot() {
-        Item robot = items.stream().filter(item -> item instanceof Robot).findFirst().orElse(null);
-        if (robot != null) {
-            map.clearItems(currentPlace.getPosition(), 10);
-            items.remove(robot);
-        }
+    public void use(Item item, int steps) {
+        item.use(this, steps);
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}

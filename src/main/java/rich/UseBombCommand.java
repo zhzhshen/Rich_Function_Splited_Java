@@ -8,7 +8,7 @@ public class UseBombCommand implements Command {
     }
 
     public Player.Status execute(Player player) {
-        player.useBomb(steps);
+        player.use(new Bomb(), steps);
         return Player.Status.WAIT_FOR_COMMAND;
     }
 
