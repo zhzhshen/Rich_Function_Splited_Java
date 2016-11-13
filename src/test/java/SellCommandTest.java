@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
@@ -13,14 +14,12 @@ public class SellCommandTest {
     private Player player;
     private StartingPoint startingPoint;
     private Estate estate1;
-    private Estate estate2;
 
     @Before
     public void before() {
         startingPoint = new StartingPoint(1);
         estate1 = new Estate(2, ESTATE_PRICE);
-        estate2 = new Estate(3, ESTATE_PRICE);
-        map = new GameMap(startingPoint, estate1, estate2);
+        map = new GameMap(startingPoint, estate1);
         player = new Player(map, INITIAL_BALANCE, 0);
 
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
@@ -30,7 +29,6 @@ public class SellCommandTest {
     public void should_wait_for_command_failed_sell_estate_if_player_respond_invalid_number() {
         player.execute(new SellCommand(4));
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getBalance(), is(INITIAL_BALANCE));
     }
 
@@ -38,7 +36,6 @@ public class SellCommandTest {
     public void should_wait_for_command_failed_sell_estate_if_estate_is_empty() {
         player.execute(new SellCommand(2));
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getBalance(), is(INITIAL_BALANCE));
     }
 
@@ -48,7 +45,6 @@ public class SellCommandTest {
 
         player.execute(new SellCommand(2));
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getBalance(), is(INITIAL_BALANCE));
     }
 
@@ -60,7 +56,6 @@ public class SellCommandTest {
 
         player.execute(new SellCommand(2));
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getBalance(), is(INITIAL_BALANCE + ESTATE_PRICE));
     }
 
@@ -76,8 +71,12 @@ public class SellCommandTest {
 
         player.execute(new SellCommand(2));
 
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(player.getBalance(), is(INITIAL_BALANCE + ESTATE_PRICE * 8));
+    }
+
+    @After
+    public void after() {
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 
 }

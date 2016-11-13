@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
@@ -21,7 +22,6 @@ public class RobotCommandTest {
         player.execute(new UseBombCommand(2));
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(bomb));
     }
 
@@ -30,7 +30,6 @@ public class RobotCommandTest {
         player.execute(new UseRobotCommand());
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(bomb));
     }
 
@@ -42,8 +41,12 @@ public class RobotCommandTest {
         player.execute(new UseRobotCommand());
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(nullValue()));
+    }
+
+    @After
+    public void after() {
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 
 }

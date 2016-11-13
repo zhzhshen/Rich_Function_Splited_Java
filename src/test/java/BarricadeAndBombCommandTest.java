@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import rich.*;
@@ -6,7 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 
-public class BarricadeCommandTest {
+public class BarricadeAndBombCommandTest {
     private GameMap map;
     private Player player;
 
@@ -22,7 +23,6 @@ public class BarricadeCommandTest {
         player.execute(new UseBarricadeCommand(2));
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(nullValue()));
     }
 
@@ -33,7 +33,6 @@ public class BarricadeCommandTest {
         player.execute(new UseBarricadeCommand(2));
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(barricade));
     }
 
@@ -44,7 +43,6 @@ public class BarricadeCommandTest {
         player.execute(new UseBombCommand(2));
 
         assertThat(player.getItems().size(), is(0));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(bomb));
     }
 
@@ -55,7 +53,6 @@ public class BarricadeCommandTest {
         player.execute(new UseBarricadeCommand(11));
 
         assertThat(player.getItems().size(), is(1));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 11), is(nullValue()));
     }
 
@@ -75,7 +72,6 @@ public class BarricadeCommandTest {
 
         assertThat(player.getItems().size(), is(1));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 2), is(barricade));
-        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 
     @Test
@@ -86,6 +82,10 @@ public class BarricadeCommandTest {
 
         assertThat(player.getItems().size(), is(1));
         assertThat(map.getItemAt(player.getCurrentPlace().getPosition() + 3), is(nullValue()));
+    }
+
+    @After
+    public void after() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
     }
 }
