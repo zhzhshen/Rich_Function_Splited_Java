@@ -5,8 +5,10 @@ public class Estate implements Place {
     private Player owner;
     private int level;
     private double price;
+    private int position;
 
-    public Estate(double price) {
+    public Estate(int position, double price) {
+        this.position = position;
         this.level = 0;
         this.price = price;
     }
@@ -51,5 +53,9 @@ public class Estate implements Place {
             charge(player);
             return Player.Status.TURN_END;
         }
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

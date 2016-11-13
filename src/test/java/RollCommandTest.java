@@ -29,13 +29,13 @@ public class RollCommandTest {
     public void before() {
         map = mock(GameMap.class);
         dice = mock(Dice.class);
-        estate = new Estate(ESTATE_PICE);
-        startingPoint = new StartingPoint();
-        giftHouse = new GiftHouse();
-        magicHouse = new MagicHouse();
-        hospital = new Hospital();
-        police = new Police();
-        toolHouse = new ToolHouse();
+        estate = new Estate(0, ESTATE_PICE);
+        startingPoint = new StartingPoint(1);
+        giftHouse = new GiftHouse(1);
+        magicHouse = new MagicHouse(1);
+        hospital = new Hospital(1);
+        police = new Police(1);
+        toolHouse = new ToolHouse(0);
         player = new Player(map, INITIAL_BALANCE, INITIAL_POINT);
     }
 

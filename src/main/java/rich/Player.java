@@ -16,9 +16,11 @@ public class Player {
 
     public Player(GameMap map, double balance, int point) {
         this.map = map;
+        this.currentPlace = map.getStartingPoint();
         this.balance = balance;
         this.point = point;
         lands = new ArrayList();
+        map.addPlayer(this);
     }
 
     public double getBalance() {
@@ -128,6 +130,24 @@ public class Player {
 
     public void addItem(Item item) {
         items.add(item);
+    }
+
+    public void useBarricade(int steps) {
+        if (steps > 10) return;
+        Item barricade = items.stream().filter(item -> item instanceof Barricade).findFirst().orElse(null);
+        if (barricade != null
+                && map.putItemStepsForward(barricade, currentPlace.getPosition(), steps)) {
+            items.remove(barricade);
+        }
+    }
+
+    public void useBomb(int steps) {
+        if (steps > 10) return;
+        Item bomb = items.stream().filter(item -> item instanceof Bomb).findFirst().orElse(null);
+        if (bomb != null
+                && map.putItemStepsForward(bomb, currentPlace.getPosition(), steps)) {
+            items.remove(bomb);
+        }
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
