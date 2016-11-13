@@ -31,4 +31,20 @@ public class SellToolCommand implements Command {
     public Player.Status respond(Player player, Response response) {
         return response.execute(player);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SellToolCommand that = (SellToolCommand) o;
+
+        return index == that.index;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return index;
+    }
 }

@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import rich.Dice;
 import rich.GameMap;
 import rich.Player;
 import rich.command.RollCommand;
@@ -14,9 +15,12 @@ import rich.place.StartingPoint;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class MapTest {
     GameMap map;
+    Dice dice = mock(Dice.class);
     Player player;
     Place startingPoint;
     Place estate;
@@ -34,7 +38,8 @@ public class MapTest {
 
     @Test
     public void should_move_player_to_empty_estate() {
-        player.execute(new RollCommand(() -> 1));
+        when(dice.roll()).thenReturn(1);
+        player.execute(new RollCommand(dice));
 
         assertThat(player.getCurrentPlace(), is(estate));
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
@@ -42,7 +47,8 @@ public class MapTest {
 
     @Test
     public void should_move_player_to_hospital() {
-        player.execute(new RollCommand(() -> 2));
+        when(dice.roll()).thenReturn(2);
+        player.execute(new RollCommand(dice));
 
         assertThat(player.getCurrentPlace(), is(hospital));
         assertThat(player.getStatus(), is(Player.Status.TURN_END));
@@ -57,7 +63,8 @@ public class MapTest {
         assertThat(player.getItems().size(), is(0));
         assertThat(map.getItemAt(2), is(new Barricade()));
 
-        player.execute(new RollCommand(() -> 2));
+        when(dice.roll()).thenReturn(2);
+        player.execute(new RollCommand(dice));
 
         assertThat(player.getCurrentPlace(), is(estate));
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_RESPONSE));
@@ -72,7 +79,8 @@ public class MapTest {
         assertThat(player.getItems().size(), is(0));
         assertThat(map.getItemAt(2), is(new Bomb()));
 
-        player.execute(new RollCommand(() -> 3));
+        when(dice.roll()).thenReturn(3);
+        player.execute(new RollCommand(dice));
 
         assertThat(player.getCurrentPlace(), is(hospital));
         assertThat(player.isInHospital(), is(true));

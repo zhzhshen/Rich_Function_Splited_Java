@@ -2,20 +2,20 @@ package rich.command;
 
 import rich.Player;
 import rich.response.Response;
-import rich.item.Robot;
 
-public class UseRobotCommand implements Command {
+public class QuitCommand implements Command{
+    @Override
     public Player.Status execute(Player player) {
-        player.use(new Robot(), 0);
-        return Player.Status.WAIT_FOR_COMMAND;
+        return null;
     }
 
+    @Override
     public Player.Status respond(Player player, Response response) {
         return response.execute(player);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof UseRobotCommand;
+        return obj instanceof QuitCommand;
     }
 }

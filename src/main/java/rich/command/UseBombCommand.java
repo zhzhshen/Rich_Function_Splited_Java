@@ -19,4 +19,20 @@ public class UseBombCommand implements Command {
     public Player.Status respond(Player player, Response response) {
         return response.execute(player);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UseBombCommand that = (UseBombCommand) o;
+
+        return steps == that.steps;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return steps;
+    }
 }

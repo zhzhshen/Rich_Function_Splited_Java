@@ -18,4 +18,20 @@ public class SellCommand implements Command {
     public Player.Status respond(Player player, Response response) {
         return response.execute(player);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SellCommand that = (SellCommand) o;
+
+        return position == that.position;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return position;
+    }
 }
