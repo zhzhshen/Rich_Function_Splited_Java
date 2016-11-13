@@ -150,6 +150,14 @@ public class Player {
         }
     }
 
+    public void useRobot() {
+        Item robot = items.stream().filter(item -> item instanceof Robot).findFirst().orElse(null);
+        if (robot != null) {
+            map.clearItems(currentPlace.getPosition(), 10);
+            items.remove(robot);
+        }
+    }
+
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
 
     public enum SpecialStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}

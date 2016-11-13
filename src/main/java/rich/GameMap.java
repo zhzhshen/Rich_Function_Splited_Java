@@ -30,7 +30,7 @@ public class GameMap {
         return places.stream().filter(place -> place instanceof StartingPoint).findFirst().get();
     }
 
-    public boolean putItemStepsForward(Item item,int start, int steps) {
+    public boolean putItemStepsForward(Item item, int start, int steps) {
         int targetPosition = moveStepForward(start, steps);
         if (!items.containsKey(targetPosition)
                 && !players.stream().anyMatch(player -> player.getCurrentPlace().getPosition() == targetPosition)) {
@@ -42,5 +42,13 @@ public class GameMap {
 
     private int moveStepForward(int start, int steps) {
         return (start + steps - 1) % places.size() + 1;
+    }
+
+    public void clearItems(int position, int steps) {
+        int current = position + 1;
+        for (int i = 0; i < steps; i++) {
+            items.remove(current);
+            current = moveStepForward(current, 1);
+        }
     }
 }

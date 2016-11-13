@@ -8,7 +8,6 @@ import static org.hamcrest.core.IsNull.nullValue;
 
 public class BarricadeCommandTest {
     private GameMap map;
-    private Dice dice = () -> 1;;
     private Player player;
 
     @Before
