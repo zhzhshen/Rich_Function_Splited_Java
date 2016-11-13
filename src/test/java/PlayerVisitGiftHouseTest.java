@@ -4,6 +4,7 @@ import org.junit.Test;
 import rich.Dice;
 import rich.GameMap;
 import rich.Player;
+import rich.command.ChooseGiftCommand;
 import rich.place.GiftHouse;
 
 import static org.hamcrest.core.Is.is;
@@ -37,7 +38,7 @@ public class PlayerVisitGiftHouseTest {
 
     @Test
     public void should_success_to_choose_money() {
-        player.chooseGift(1);
+        player.respond(new ChooseGiftCommand(1));
 
         assertThat(player.getCashBalance(), is(INITIAL_BALANCE + CASH_GIFT));
         assertThat(player.getPoint(), is(0));
@@ -46,7 +47,7 @@ public class PlayerVisitGiftHouseTest {
 
     @Test
     public void should_success_to_choose_point() {
-        player.chooseGift(2);
+        player.respond(new ChooseGiftCommand(2));
 
         assertThat(player.getPoint(), is(POINT_GIFT));
         assertThat(player.getCashBalance(), is(INITIAL_BALANCE));
@@ -55,7 +56,7 @@ public class PlayerVisitGiftHouseTest {
 
     @Test
     public void should_success_to_choose_evisu() {
-        player.chooseGift(3);
+        player.respond(new ChooseGiftCommand(3));
 
         assertThat(player.getCashBalance(), is(INITIAL_BALANCE));
         assertThat(player.getPoint(), is(0));

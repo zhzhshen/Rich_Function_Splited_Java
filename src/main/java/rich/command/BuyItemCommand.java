@@ -18,5 +18,6 @@ public class BuyItemCommand implements Command {
                 && player.reducePoint(item.getPrice())) {
             player.addItem(item);
         }
+        player.setStatus(Player.ControlStatus.WAIT_FOR_RESPOND);
     }
 }

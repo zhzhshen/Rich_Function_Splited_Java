@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import rich.Game;
 import rich.GameMap;
+import rich.command.SellLandCommand;
 import rich.place.Land;
 import rich.Player;
 
@@ -42,24 +43,26 @@ public class PlayerSellLandTest {
 
     @Test
     public void should_success_to_sell_land_when_sell_command() {
-        player1.sellLand(1);
+        player1.respond(new SellLandCommand(1));
 
         assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE * 2));
+        assertThat(player1.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(land.getOwner(), is(nullValue()));
     }
 
     @Test
     public void should_fail_to_sell_land_when_belong_to_other() {
-        player1.sellLand(2);
+        player1.respond(new SellLandCommand(2));
 
         assertThat(player1.getCashBalance(), is(INITIAL_BALABCE));
+        assertThat(player1.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(otherLand.getOwner(), is(player2));
     }
 
     @Test
     public void should_success_to_sell_land_when_level_three() {
         land.setLevel(3);
-        player1.sellLand(1);
+        player1.respond(new SellLandCommand(1));
 
         assertThat(player1.getCashBalance(), is(INITIAL_BALABCE + LAND_PRICE * 8));
         assertThat(land.getOwner(), is(nullValue()));

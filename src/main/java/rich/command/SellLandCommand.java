@@ -8,7 +8,6 @@ public class SellLandCommand implements Command {
     private int placeIndex;
 
     public SellLandCommand(int placeIndex) {
-
         this.placeIndex = placeIndex;
     }
 

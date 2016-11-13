@@ -4,7 +4,7 @@ import rich.*;
 import rich.Item.Bomb;
 import rich.Item.Item;
 import rich.Item.RoadBlock;
-import rich.command.UserItemCommand;
+import rich.command.UseItemCommand;
 import rich.place.Hospital;
 import rich.place.Land;
 import rich.place.StartingPoint;
@@ -82,7 +82,7 @@ public class PlayerWalkOnMapTest {
     public void should_stop_at_hospital_when_reach_road_block() {
         Item roadBlock = new RoadBlock(50);
         player.addItem(roadBlock);
-        player.useItem(UserItemCommand.USE_ROAD_BLOCK, 3);
+        player.respond(new UseItemCommand(UseItemCommand.USE_ROAD_BLOCK, 3));
 
         when(dice.roll()).thenReturn(3);
 
@@ -97,7 +97,7 @@ public class PlayerWalkOnMapTest {
     public void should_stop_at_empty_land_and_able_to_buy_when_reach_road_block() {
         Item roadBlock = new RoadBlock(50);
         player.addItem(roadBlock);
-        player.useItem(UserItemCommand.USE_ROAD_BLOCK, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_ROAD_BLOCK, 2));
 
         when(dice.roll()).thenReturn(3);
 
@@ -112,7 +112,7 @@ public class PlayerWalkOnMapTest {
     public void should_in_hospital_when_reach_bomb() {
         Item bomb = new Bomb(50);
         player.addItem(bomb);
-        player.useItem(UserItemCommand.USE_BOMB, 4);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 4));
 
         when(dice.roll()).thenReturn(4);
 

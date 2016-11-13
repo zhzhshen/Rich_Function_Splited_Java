@@ -7,7 +7,7 @@ import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
-import rich.command.UserItemCommand;
+import rich.command.UseItemCommand;
 import rich.place.*;
 
 import static org.hamcrest.core.Is.is;
@@ -44,7 +44,7 @@ public class UseItemTest {
 
     @Test
     public void should_success_to_place_bomb() {
-        player.useItem(UserItemCommand.USE_BOMB, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 2));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(0));
@@ -54,7 +54,7 @@ public class UseItemTest {
     @Test
     public void should_fail_to_place_bomb_on_player() {
         assertThat(player.getCurrentPlace().getPosition(), is(1));
-        player.useItem(UserItemCommand.USE_BOMB, 1);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 1));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
@@ -63,7 +63,7 @@ public class UseItemTest {
 
     @Test
     public void should_fail_to_place_bomb_when_further_than_ten_steps() {
-        player.useItem(UserItemCommand.USE_BOMB, 12);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 12));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
@@ -73,13 +73,13 @@ public class UseItemTest {
     @Test
     public void should_fail_to_place_bomb_on_roadblock() {
         player.addItem(roadBlock);
-        player.useItem(UserItemCommand.USE_ROAD_BLOCK, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_ROAD_BLOCK, 2));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
         assertThat(map.getItemAt(2), is(roadBlock));
 
-        player.useItem(UserItemCommand.USE_BOMB, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 2));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
@@ -89,7 +89,7 @@ public class UseItemTest {
     @Test
     public void should_success_to_place_road_block() {
         player.addItem(roadBlock);
-        player.useItem(UserItemCommand.USE_ROAD_BLOCK, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_ROAD_BLOCK, 2));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));
@@ -99,13 +99,13 @@ public class UseItemTest {
     @Test
     public void should_success_to_use_robot() {
         player.addItem(robot);
-        player.useItem(UserItemCommand.USE_BOMB, 2);
+        player.respond(new UseItemCommand(UseItemCommand.USE_BOMB, 2));
         map.putItemAt(roadBlock, 12);
 
         assertThat(map.getItemAt(2), is(bomb));
         assertThat(map.getItemAt(12), is(roadBlock));
 
-        player.useItem(UserItemCommand.USE_ROBOT, 0);
+        player.respond(new UseItemCommand(UseItemCommand.USE_ROBOT, 0));
 
         assertThat(player.getControlStatus(), is(Player.ControlStatus.WAIT_FOR_COMMAND));
         assertThat(player.getItems().size(), is(1));

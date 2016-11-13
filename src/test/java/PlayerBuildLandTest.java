@@ -2,6 +2,8 @@ import org.junit.Before;
 import org.junit.Test;
 import rich.GameMap;
 import rich.Player;
+import rich.command.BuyLandCommand;
+import rich.command.CommandNo;
 import rich.place.Land;
 
 import static org.hamcrest.core.Is.is;
@@ -35,7 +37,7 @@ public class PlayerBuildLandTest {
     public void should_end_turn_when_say_no() {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
-        player.sayNo();
+        player.respond(new CommandNo());
 
         assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
@@ -43,7 +45,7 @@ public class PlayerBuildLandTest {
     @Test
     public void should_success_to_build_when_say_yes_with_enough_money() {
         player.setCashBalance(THOUSAND);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertThat(land.getLevel(), is(LEVEL + 1));
         assertThat(player.getCashBalance(), is(THOUSAND - HUNDRED));
@@ -53,7 +55,7 @@ public class PlayerBuildLandTest {
     @Test
     public void should_fail_to_build_when_say_yes_without_enough_money() {
         player.setCashBalance(0);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertThat(land.getLevel(), is(LEVEL));
         assertTrue(player.getCashBalance() == 0);
@@ -68,19 +70,19 @@ public class PlayerBuildLandTest {
         assertThat(player.getCashBalance(), is(THOUSAND));
 
         player.roll(() -> 1);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertThat(land.getLevel(), is(1));
         assertThat(player.getCashBalance(), is(THOUSAND - HUNDRED));
 
         player.roll(() -> 1);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertThat(land.getLevel(), is(2));
         assertThat(player.getCashBalance(), is(THOUSAND - 2 * HUNDRED));
 
         player.roll(() -> 1);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertThat(land.getLevel(), is(3));
         assertThat(player.getCashBalance(), is(THOUSAND - 3 * HUNDRED));

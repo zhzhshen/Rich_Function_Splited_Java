@@ -6,6 +6,8 @@ import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
+import rich.command.BuyItemCommand;
+import rich.command.CommandNo;
 import rich.place.ToolHouse;
 
 import static org.hamcrest.core.Is.is;
@@ -42,7 +44,7 @@ public class PlayerBuyToolTest {
     public void should_end_turn_when_say_no() {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
-        player.sayNo();
+        player.respond(new CommandNo());
 
         assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
     }
@@ -53,7 +55,7 @@ public class PlayerBuyToolTest {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
-        player.sayYesToByTool(1);
+        player.respond(new BuyItemCommand(1));
 
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(roadBlock));
@@ -66,7 +68,7 @@ public class PlayerBuyToolTest {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
-        player.sayYesToByTool(2);
+        player.respond(new BuyItemCommand(2));
 
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(robot));
@@ -79,7 +81,7 @@ public class PlayerBuyToolTest {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
-        player.sayYesToByTool(3);
+        player.respond(new BuyItemCommand(3));
 
         assertThat(player.getItems().size(), is(1));
         assertThat(player.getItems().get(0), is(bomb));
@@ -92,7 +94,7 @@ public class PlayerBuyToolTest {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(0);
-        player.sayYesToByTool(2);
+        player.respond(new BuyItemCommand(2));
 
         assertThat(player.getItems().size(), is(0));
         assertTrue(player.getPoint() == 0);
@@ -105,7 +107,7 @@ public class PlayerBuyToolTest {
         assertEquals(player.getControlStatus(), Player.ControlStatus.WAIT_FOR_RESPOND);
 
         player.setPointBalance(INITIAL_POINT);
-        player.sayYesToByTool(3);
+        player.respond(new BuyItemCommand(3));
 
         assertThat(player.getItems().size(), is(10));
         assertThat(player.getPoint(), is(INITIAL_POINT));

@@ -2,10 +2,8 @@ package rich;
 
 import rich.Item.Item;
 import rich.command.*;
-import rich.place.GiftHouse;
 import rich.place.Land;
 import rich.place.Place;
-import rich.place.ToolHouse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,37 +75,13 @@ public class Player {
         if (currentPlace.isInputRequired(this)) {
             status = Player.ControlStatus.WAIT_FOR_RESPOND;
         } else {
-            Command command = new VisitPlaceCommand(currentPlace);
-            command.action(map, this);
-            status = Player.ControlStatus.TURN_END;
+            respond(new VisitPlaceCommand());
         }
         return status;
     }
 
-    public void sayNo() {
-        status = Player.ControlStatus.TURN_END;
-    }
-
-    public void sayYes() {
-        Command command = new BuyLandCommand(currentPlace);
+    public void respond(Command command) {
         command.action(map, this);
-        status = Player.ControlStatus.TURN_END;
-    }
-
-    public void sayYesToByTool(int toolIndex) {
-        if (currentPlace instanceof ToolHouse) {
-            Command command = new BuyItemCommand(toolIndex);
-            command.action(map, this);
-        }
-        status = Player.ControlStatus.WAIT_FOR_RESPOND;
-    }
-
-    public void chooseGift(int giftIndex) {
-        if (currentPlace instanceof GiftHouse) {
-            Command command = new SendGiftCommand(giftIndex);
-            command.action(map, this);
-        }
-        status = Player.ControlStatus.TURN_END;
     }
 
     public Place getCurrentPlace() {
@@ -185,23 +159,12 @@ public class Player {
                 .orElse(0);
     }
 
-    public void sellLand(int placeIndex) {
-        Command command = new SellLandCommand(placeIndex);
-        command.action(map, this);
-    }
-
-    public void sellItem(int itemIndex) {
-        Command command = new SellItemCommand(itemIndex);
-        command.action(map, this);
-    }
-
     public boolean removeItem(Item item) {
         return getItems().remove(item);
     }
 
-    public void useItem(int item, int position) {
-        Command command = new UserItemCommand(item, position);
-        command.action(map, this);
+    public void setStatus(ControlStatus status) {
+        this.status = status;
     }
 
     public enum ControlStatus {TURN_END, WAIT_FOR_COMMAND, WAIT_FOR_RESPOND, INACTIVE}

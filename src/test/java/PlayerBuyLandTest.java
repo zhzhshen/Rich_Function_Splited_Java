@@ -2,6 +2,8 @@ import org.junit.Before;
 import org.junit.Test;
 import rich.GameMap;
 import rich.Player;
+import rich.command.BuyLandCommand;
+import rich.command.CommandNo;
 import rich.place.Land;
 
 import static org.hamcrest.core.Is.is;
@@ -30,7 +32,7 @@ public class PlayerBuyLandTest {
 
     @Test
     public void should_end_turn_when_say_no() {
-        player.sayNo();
+        player.respond(new CommandNo());
 
         assertEquals(land.getOwner(), null);
         assertEquals(player.getControlStatus(), Player.ControlStatus.TURN_END);
@@ -39,7 +41,9 @@ public class PlayerBuyLandTest {
     @Test
     public void should_success_to_buy_when_say_yes_with_enough_money() {
         player.setCashBalance(THOUSAND);
-        player.sayYes();
+
+        player.respond(new BuyLandCommand());
+//        player.sayYes();
 
         assertThat(land.getOwner(), is(player));
         assertThat(player.getLands().size(), is(1));
@@ -50,7 +54,7 @@ public class PlayerBuyLandTest {
     @Test
     public void should_fail_to_buy_when_say_yes_without_enough_money() {
         player.setCashBalance(0);
-        player.sayYes();
+        player.respond(new BuyLandCommand());
 
         assertEquals(land.getOwner(), null);
         assertThat(player.getLands().size(), is(0));

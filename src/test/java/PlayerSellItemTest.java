@@ -8,6 +8,7 @@ import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
+import rich.command.SellItemCommand;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -33,7 +34,7 @@ public class PlayerSellItemTest {
 
     @Test
     public void should_success_to_sell_roadblock_when_sell_command() {
-        player1.sellItem(1);
+        player1.respond(new SellItemCommand(1));
 
         assertThat(player1.getItems().size(), is(0));
         assertThat(player1.getPoint(), is(roadBlock.getPrice()));
@@ -41,7 +42,7 @@ public class PlayerSellItemTest {
 
     @Test
     public void should_fail_to_sell_robot_when_not_have_one() {
-        player1.sellItem(2);
+        player1.respond(new SellItemCommand(2));
 
         assertThat(player1.getItems().size(), is(1));
         assertThat(player1.getPoint(), is(0));
@@ -50,7 +51,7 @@ public class PlayerSellItemTest {
     @Test
     public void should_success_to_sell_robot_when_sell_command() {
         player1.addItem(robot);
-        player1.sellItem(2);
+        player1.respond(new SellItemCommand(2));
 
         assertThat(player1.getItems().size(), is(1));
         assertThat(player1.getPoint(), is(robot.getPrice()));
@@ -59,7 +60,7 @@ public class PlayerSellItemTest {
     @Test
     public void should_success_to_sell_bomb_when_sell_command() {
         player1.addItem(bomb);
-        player1.sellItem(3);
+        player1.respond(new SellItemCommand(3));
 
         assertThat(player1.getItems().size(), is(1));
         assertThat(player1.getPoint(), is(bomb.getPrice()));
