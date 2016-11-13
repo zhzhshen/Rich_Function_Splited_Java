@@ -19,6 +19,7 @@ public class Player {
     private List<SpecialStatus> specialStatus = new ArrayList();
     private int point;
     private List<Item> items = new ArrayList();
+    private int skipTurns;
 
     public Player(GameMap map, double balance, int point) {
         this.map = map;
@@ -92,6 +93,8 @@ public class Player {
 
     public void burn() {
         specialStatus.add(SpecialStatus.IN_HOSPITAL);
+        skipTurns = 3;
+
     }
 
     public boolean isInHospital() {
@@ -100,6 +103,7 @@ public class Player {
 
     public void prisoned() {
         specialStatus.add(SpecialStatus.IN_PRISON);
+        skipTurns = 2;
     }
 
     public boolean isInPrison() {
@@ -157,6 +161,20 @@ public class Player {
             items.remove(item);
             gainPoint(item.getPoint());
         }
+    }
+
+    public boolean activate() {
+        if (isInHospital() || isInPrison()) {
+            if (skipTurns == 0) {
+                status = Status.WAIT_FOR_COMMAND;
+                return true;
+            }
+            skipTurns--;
+            status = Status.TURN_END;
+            return false;
+        }
+        status = Status.WAIT_FOR_COMMAND;
+        return true;
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}

@@ -1,9 +1,7 @@
 package rich;
 
 import rich.item.Item;
-import rich.place.Hospital;
-import rich.place.Place;
-import rich.place.StartingPoint;
+import rich.place.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +15,17 @@ public class GameMap {
 
     public GameMap(Place... places) {
         this.places.addAll(Arrays.asList(places));
+    }
+
+    public void init() {
+        this.places.addAll(Arrays.asList(new StartingPoint(1),
+                new Estate(2, 200),
+                new Hospital(3),
+                new MagicHouse(4),
+                new Police(5),
+                new ToolHouse(6),
+                new GiftHouse(7),
+                new Estate(8, 300)));
     }
 
     public void addPlayer(Player player) {
