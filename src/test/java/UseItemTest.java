@@ -7,7 +7,7 @@ import rich.Item.Item;
 import rich.Item.RoadBlock;
 import rich.Item.Robot;
 import rich.Player;
-import rich.UserItemCommand;
+import rich.command.UserItemCommand;
 import rich.place.*;
 
 import static org.hamcrest.core.Is.is;

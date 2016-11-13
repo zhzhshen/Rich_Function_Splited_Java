@@ -9,9 +9,6 @@ public class Land implements Place {
     private double unitPrice;
     private int level;
 
-    public Land() {
-    }
-
     public Land(int position, double unitPrice, int level) {
         this.position = position;
         this.unitPrice = unitPrice;

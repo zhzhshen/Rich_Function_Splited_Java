@@ -4,6 +4,7 @@ import rich.*;
 import rich.Item.Bomb;
 import rich.Item.Item;
 import rich.Item.RoadBlock;
+import rich.command.UserItemCommand;
 import rich.place.Hospital;
 import rich.place.Land;
 import rich.place.StartingPoint;

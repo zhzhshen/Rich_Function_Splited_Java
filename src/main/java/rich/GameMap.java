@@ -1,8 +1,6 @@
 package rich;
 
-import rich.Item.Bomb;
 import rich.Item.Item;
-import rich.Item.RoadBlock;
 import rich.place.Hospital;
 import rich.place.Place;
 
@@ -27,12 +25,7 @@ public class GameMap {
             Item item = itemEntry.getValue();
             if (isInBetween(itemPosition, origin, destination)) {
                 iterator.remove();
-                if (item instanceof RoadBlock) {
-                    return getPlace(itemPosition - 1);
-                } else if (item instanceof Bomb) {
-                    player.burn();
-                    return getHospital();
-                }
+                return item.trigger(this, player, itemPosition);
             }
         }
 
@@ -43,7 +36,7 @@ public class GameMap {
         return (origin - 1 + step) % places.size();
     }
 
-    private Place getHospital() {
+    public Place getHospital() {
         return places.stream().filter(place -> place instanceof Hospital).findFirst().get();
     }
 

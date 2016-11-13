@@ -26,7 +26,7 @@ public class PlayerWalkToPlaceTest {
 
     @Test
     public void should_wait_for_input_when_walk_to_empty_place() {
-        when(map.move(eq(player), anyInt())).thenReturn(new Land());
+        when(map.move(eq(player), anyInt())).thenReturn(new Land(1, 200, 0));
 
         player.roll(dice);
 
