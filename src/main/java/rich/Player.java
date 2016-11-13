@@ -48,16 +48,22 @@ public class Player {
     }
 
     public void buy() {
-        if (reduceMoney(currentPlace.getPrice())) {
-            currentPlace.sellTo(this);
-            lands.add(currentPlace);
+        if (currentPlace instanceof Estate) {
+            Estate estate = (Estate) currentPlace;
+            if (reduceMoney(estate.getPrice())) {
+                estate.sellTo(this);
+                lands.add(estate);
+            }
         }
     }
 
     public void build() {
-        if (!currentPlace.isMaxLevel()
-                && reduceMoney(currentPlace.getPrice())) {
-            currentPlace.build();
+        if (currentPlace instanceof Estate) {
+            Estate estate = (Estate) currentPlace;
+            if (!estate.isMaxLevel()
+                    && reduceMoney(estate.getPrice())) {
+                estate.build();
+            }
         }
     }
 

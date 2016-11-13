@@ -14,7 +14,7 @@ public class RollCommandTest {
     private final double ESTATE_PICE = 200;
     private GameMap map;
     private Dice dice;
-    private Place estate;
+    private Estate estate;
     private Player player;
     private Player otherPlayer;
 

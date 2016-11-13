@@ -1,6 +1,6 @@
 package rich;
 
-public class Estate implements Place{
+public class Estate implements Place {
     private static final int MAX_LEVEL = 3;
     private Player owner;
     private int level;
@@ -35,12 +35,21 @@ public class Estate implements Place{
         return level == MAX_LEVEL;
     }
 
-    public void charge(Player player) {
+    private void charge(Player player) {
         if (owner.isInHospital() || owner.isInPrison() || player.hasEvisu()) {
             return;
         }
         double charge = 0.5 * price * Math.pow(2, level);
         player.reduceMoney(charge);
         owner.gainMoney(charge);
+    }
+
+    public Player.Status visitedBy(Player player) {
+        if (owner == null || owner.equals(player)) {
+            return Player.Status.WAIT_FOR_RESPONSE;
+        } else {
+            charge(player);
+            return Player.Status.TURN_END;
+        }
     }
 }
