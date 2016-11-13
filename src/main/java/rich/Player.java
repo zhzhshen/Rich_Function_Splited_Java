@@ -146,6 +146,13 @@ public class Player {
         }
     }
 
+    public void sellItem(Item item) {
+        if (items.contains(item)) {
+            items.remove(item);
+            gainPoint(item.getPoint());
+        }
+    }
+
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
 
     public enum SpecialStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}

@@ -12,6 +12,11 @@ public class Bomb implements Item {
     }
 
     @Override
+    public int getPoint() {
+        return Price;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return obj instanceof Bomb;
     }
