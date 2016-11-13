@@ -11,10 +11,12 @@ public class Player {
     private double balance;
     private List<Place> lands;
     private List<SpecialStatus> specialStatus = new ArrayList();
+    private int point;
 
-    public Player(GameMap map, double balance) {
+    public Player(GameMap map, double balance, int point) {
         this.map = map;
         this.balance = balance;
+        this.point = point;
         lands = new ArrayList();
     }
 
@@ -101,6 +103,14 @@ public class Player {
 
     public boolean hasEvisu() {
         return specialStatus.contains(SpecialStatus.HAS_EVISU);
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void gainPoint(int amount) {
+        point += amount;
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}

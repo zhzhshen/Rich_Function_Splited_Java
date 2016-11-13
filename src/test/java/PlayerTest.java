@@ -20,7 +20,7 @@ public class PlayerTest {
     public void before() {
         map = mock(GameMap.class);
         command = mock(Command.class);
-        player = new Player(map, 0);
+        player = new Player(map, (double) 0, 0);
     }
 
     @Test
