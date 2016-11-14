@@ -50,11 +50,12 @@ public class GameMap {
         }
 
         places.add(new MagicHouse(index++));
-        i = index;
-        for (; index < i + 6; index++) {
-            places.add(new Estate(index, 500));
-        }
-
+        places.add(new Mine(index++, 20));
+        places.add(new Mine(index++, 80));
+        places.add(new Mine(index++, 100));
+        places.add(new Mine(index++, 40));
+        places.add(new Mine(index++, 80));
+        places.add(new Mine(index++, 60));
     }
 
     public void addPlayer(Player player) {

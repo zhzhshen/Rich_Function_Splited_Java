@@ -1,6 +1,9 @@
 import org.junit.Before;
 import org.junit.Test;
-import rich.*;
+import rich.Dice;
+import rich.GameMap;
+import rich.Mine;
+import rich.Player;
 import rich.command.RollCommand;
 import rich.place.*;
 import rich.response.BuyLandResponse;
@@ -29,6 +32,7 @@ public class RollCommandTest {
     private Hospital hospital;
     private Police police;
     private ToolHouse toolHouse;
+    private Mine mine;
 
     @Before
     public void before() {
@@ -40,7 +44,8 @@ public class RollCommandTest {
         magicHouse = new MagicHouse(1);
         hospital = new Hospital(1);
         police = new Police(1);
-        toolHouse = new ToolHouse(0);
+        toolHouse = new ToolHouse(1);
+        mine = new Mine(1, 50);
         player = new Player(map, INITIAL_BALANCE, INITIAL_POINT);
     }
 
@@ -458,5 +463,17 @@ public class RollCommandTest {
         assertThat(player.getPoint(), is(0));
         assertThat(player.getItems().size(), is(2));
         assertThat(player.getStatus(), is(Player.Status.TURN_END));
+    }
+
+    @Test
+    public void should_turn_end_if_walk_to_mine_and_gain_point() {
+        when(map.move(eq(player), anyInt())).thenReturn(mine);
+
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+
+        player.execute(new RollCommand(dice));
+
+        assertThat(player.getStatus(), is(Player.Status.TURN_END));
+        assertThat(player.getPoint(), is(INITIAL_POINT + 50));
     }
 }
