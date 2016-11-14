@@ -19,25 +19,29 @@ class Application {
 
         System.out.println("Welcome to Rich World!");
 
-        double balance;
+        double balance = 10000;
         do {
             System.out.println("请选择玩家初始资金 范围1000～50000（默认10000)");
-            balance = Double.valueOf(scanner.nextLine());
+            try {
+                balance = Double.valueOf(scanner.nextLine());
+            } catch (Exception e) {
+                continue;
+            }
         } while (balance < 1000 || balance > 50000);
 
         GameMap map = new GameMap();
-        List<Player> players;
+        List<Player> players = new ArrayList<>();
         map.init();
 
-        boolean valid;
+        boolean valid = false;
         do {
             System.out.println("请选择2~4位不重复玩家，输入编号即可。(1.钱夫人; 2.阿土伯; 3.小丹尼; 4.金贝贝):");
             String playerStrings = scanner.nextLine();
-
-            players = new ArrayList<>();
+            if (playerStrings.isEmpty()) continue;
             valid = true;
+            players.clear();
             for (int i = 0; i < playerStrings.length(); i++) {
-                Player player = null;
+                Player player;
                 int playerIndex = Integer.valueOf(playerStrings.substring(i, i + 1));
                 String name = null;
                 String legend = null;
@@ -67,13 +71,16 @@ class Application {
                         valid = false;
                         break;
                 }
-                player = new Player(map, name, balance, 100);
-                player.setColor(color);
-                player.setLegend(legend);
-                player.addItem(new Bomb());
-                player.addItem(new Barricade());
-                player.addItem(new Robot());
-                players.add(player);
+
+                if (valid) {
+                    player = new Player(map, name, balance, 100);
+                    player.setColor(color);
+                    player.setLegend(legend);
+                    player.addItem(new Bomb());
+                    player.addItem(new Barricade());
+                    player.addItem(new Robot());
+                    players.add(player);
+                }
             }
         } while (!valid);
 
