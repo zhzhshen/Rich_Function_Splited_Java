@@ -9,4 +9,6 @@ public interface Item {
     int getPoint();
 
     Place trigger(Player player, int position);
+
+    void print();
 }

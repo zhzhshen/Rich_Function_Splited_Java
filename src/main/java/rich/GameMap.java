@@ -18,14 +18,43 @@ public class GameMap {
     }
 
     public void init() {
-        this.places.addAll(Arrays.asList(new StartingPoint(1),
-                new Estate(2, 200),
-                new Hospital(3),
-                new MagicHouse(4),
-                new Police(5),
-                new ToolHouse(6),
-                new GiftHouse(7),
-                new Estate(8, 300)));
+        int index = 1;
+        places.add(new StartingPoint(index++));
+        int i = index;
+        for (; index < i + 13; index++) {
+            places.add(new Estate(index, 200));
+        }
+
+        places.add(new Hospital(index++));
+        i = index;
+        for (; index < i + 13; index++) {
+            places.add(new Estate(index, 200));
+        }
+
+        places.add(new ToolHouse(index++));
+        i = index;
+        for (; index < i + 6; index++) {
+            places.add(new Estate(index, 500));
+        }
+
+        places.add(new GiftHouse(index++));
+        i = index;
+        for (; index < i + 13; index++) {
+            places.add(new Estate(index, 300));
+        }
+
+        places.add(new Police(index++));
+        i = index;
+        for (; index < i + 13; index++) {
+            places.add(new Estate(index, 300));
+        }
+
+        places.add(new MagicHouse(index++));
+        i = index;
+        for (; index < i + 6; index++) {
+            places.add(new Estate(index, 500));
+        }
+
     }
 
     public void addPlayer(Player player) {
@@ -80,5 +109,38 @@ public class GameMap {
 
     public Place getHospital() {
         return places.stream().filter(place -> place instanceof Hospital).findFirst().get();
+    }
+
+    public void print() {
+        for (int i = 1; i <= 29; i++) {
+            print(i);
+        }
+
+        System.out.print("\n");
+        for (int i = 70; i >= 65; i--) {
+            print(i);
+            for (int j = 0; j < 27; j++) {
+                System.out.print(" ");
+            }
+            print(100 - i);
+            System.out.print("\n");
+        }
+
+        for (int i = 64; i >= 36; i--) {
+            print(i);
+        }
+        System.out.print("\n");
+    }
+
+    private void print(int position) {
+        Player playerAtPosition = players.stream().filter(player -> player.getCurrentPlace().getPosition() == position).findFirst().orElse(null);
+        Item itemAtPosition = getItemAt(position);
+        if (itemAtPosition != null) {
+            getItemAt(position).print();
+        } else if (playerAtPosition != null) {
+            playerAtPosition.print();
+        } else {
+            getPlace(position).print();
+        }
     }
 }

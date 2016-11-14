@@ -6,4 +6,6 @@ public interface Place {
     Player.Status visitedBy(Player player);
 
     int getPosition();
+
+    void print();
 }

@@ -1,5 +1,5 @@
 import org.junit.Test;
-import rich.CommandParser;
+import rich.io.CommandParser;
 import rich.command.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;

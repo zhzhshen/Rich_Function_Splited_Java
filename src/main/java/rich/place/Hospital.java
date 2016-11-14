@@ -16,4 +16,8 @@ public class Hospital implements Place {
     public int getPosition() {
         return position;
     }
+
+    public void print() {
+        System.out.print("H");
+    }
 }

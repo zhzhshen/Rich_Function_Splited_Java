@@ -1,6 +1,7 @@
 package rich;
 
 import rich.command.Command;
+import rich.io.Color;
 import rich.item.Item;
 import rich.place.Estate;
 import rich.place.Place;
@@ -10,24 +11,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+    private final String name;
     private Status status = Status.WAIT_FOR_COMMAND;
     private Command command;
     private Place currentPlace;
     private GameMap map;
     private double balance;
-    private List<Place> lands;
+    private List<Estate> estates;
     private List<SpecialStatus> specialStatus = new ArrayList();
     private int point;
     private List<Item> items = new ArrayList();
     private int skipTurns;
+    private String message;
+    private String color;
+    private String legend;
 
     public Player(GameMap map, double balance, int point) {
         this.map = map;
         this.currentPlace = map.getStartingPoint();
         this.balance = balance;
         this.point = point;
-        lands = new ArrayList();
+        this.name = "";
+        estates = new ArrayList();
         map.addPlayer(this);
+    }
+
+    public Player(GameMap map, String name, double balance, int point) {
+        this.name = name;
+        this.map = map;
+        this.currentPlace = map.getStartingPoint();
+        this.balance = balance;
+        this.point = point;
+        estates = new ArrayList();
+        map.addPlayer(this);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public double getBalance() {
@@ -59,24 +87,28 @@ public class Player {
         currentPlace = newPlace;
     }
 
-    public void buy() {
+    public boolean buy() {
         if (currentPlace instanceof Estate) {
             Estate estate = (Estate) currentPlace;
             if (reduceMoney(estate.getPrice())) {
                 estate.sellTo(this);
-                lands.add(estate);
+                estates.add(estate);
+                return true;
             }
         }
+        return false;
     }
 
-    public void build() {
+    public boolean build() {
         if (currentPlace instanceof Estate) {
             Estate estate = (Estate) currentPlace;
             if (!estate.isMaxLevel()
                     && reduceMoney(estate.getPrice())) {
                 estate.build();
+                return true;
             }
         }
+        return false;
     }
 
     public boolean reduceMoney(double amount) {
@@ -177,7 +209,34 @@ public class Player {
         return true;
     }
 
-    public enum Status {WAIT_FOR_RESPONSE, TURN_END, WAIT_FOR_COMMAND}
+    public void remove() {
+        for (Estate estate : estates) {
+            estate.sell();
+        }
+        status = Status.GAME_OVER;
+    }
+
+    public boolean isGameOver() {
+        return status == Status.GAME_OVER;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void print() {
+        System.out.print(color + legend + Color.ANSI_RESET);
+    }
+
+    public void setLegend(String legend) {
+        this.legend = legend;
+    }
+
+    public enum Status {WAIT_FOR_RESPONSE, TURN_END, GAME_OVER, WAIT_FOR_COMMAND}
 
     public enum SpecialStatus {IN_PRISON, HAS_EVISU, IN_HOSPITAL}
 }

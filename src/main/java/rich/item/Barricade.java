@@ -22,6 +22,10 @@ public class Barricade implements Item {
         return player.getMap().getPlace(position);
     }
 
+    public void print() {
+        System.out.print("#");
+    }
+
     public boolean equals(Object obj) {
         return obj instanceof Barricade;
     }

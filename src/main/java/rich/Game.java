@@ -33,4 +33,15 @@ public class Game {
     private int nextPlayer() {
         return currentPlayer % players.size() + 1;
     }
+
+    public boolean isGameOver() {
+        Player activePlayer = getActivePlayer();
+        if (activePlayer.isGameOver()) {
+            players.remove(currentPlayer);
+            if (players.size() == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

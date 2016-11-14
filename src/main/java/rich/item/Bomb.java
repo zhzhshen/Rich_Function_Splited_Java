@@ -23,6 +23,10 @@ public class Bomb implements Item {
         return player.getMap().getHospital();
     }
 
+    public void print() {
+        System.out.print("@");
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Bomb;

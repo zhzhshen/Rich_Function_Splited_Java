@@ -16,4 +16,8 @@ public class StartingPoint implements Place {
     public int getPosition() {
         return position;
     }
+
+    public void print() {
+        System.out.print("S");
+    }
 }

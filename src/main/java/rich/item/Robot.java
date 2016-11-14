@@ -13,14 +13,15 @@ public class Robot implements Item {
         }
     }
 
-    @Override
     public int getPoint() {
         return Price;
     }
 
-    @Override
     public Place trigger(Player player, int position) {
         return null;
+    }
+
+    public void print() {
     }
 
     @Override

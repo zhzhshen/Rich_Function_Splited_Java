@@ -1,5 +1,6 @@
-package rich;
+package rich.io;
 
+import rich.Dice;
 import rich.command.*;
 
 public interface CommandParser {
@@ -8,7 +9,7 @@ public interface CommandParser {
         String command = splitedCommand[0];
         String value = splitedCommand.length > 1 ? splitedCommand[1] : null;
 
-        switch (command) {
+        switch (command.toLowerCase()) {
             case "roll":
                 return new RollCommand(new Dice());
             case "block":
@@ -19,7 +20,7 @@ public interface CommandParser {
                 return new UseRobotCommand();
             case "sell":
                 return new SellCommand(Integer.valueOf(value));
-            case "sellTool":
+            case "selltool":
                 return new SellToolCommand(Integer.valueOf(value));
             case "query":
                 return new QueryCommand();

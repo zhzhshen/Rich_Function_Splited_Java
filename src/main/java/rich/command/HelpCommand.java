@@ -6,7 +6,7 @@ import rich.response.Response;
 public class HelpCommand implements Command{
     @Override
     public Player.Status execute(Player player) {
-        return null;
+        return Player.Status.WAIT_FOR_COMMAND;
     }
 
     @Override
