@@ -7,8 +7,7 @@ import rich.item.Robot;
 
 public class UseRobotCommand implements Command {
     public Pair<Player.Status, String> execute(Player player) {
-        player.use(new Robot(), 0);
-        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
+        return Pair.of(Player.Status.WAIT_FOR_COMMAND, player.use(new Robot(), 0));
     }
 
     public Pair<Player.Status, String> respond(Player player, Response response) {

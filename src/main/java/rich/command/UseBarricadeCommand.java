@@ -15,8 +15,7 @@ public class UseBarricadeCommand implements Command {
     }
 
     public Pair<Player.Status, String> execute(Player player) {
-        player.use(barricade, steps);
-        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
+        return Pair.of(Player.Status.WAIT_FOR_COMMAND, player.use(barricade, steps));
     }
 
     public Pair<Player.Status, String> respond(Player player, Response response) {
@@ -31,7 +30,6 @@ public class UseBarricadeCommand implements Command {
         UseBarricadeCommand that = (UseBarricadeCommand) o;
 
         return steps == that.steps;
-
     }
 
     @Override

@@ -2,8 +2,8 @@ package rich.command;
 
 import com.sun.tools.javac.util.Pair;
 import rich.Player;
-import rich.response.Response;
 import rich.item.Bomb;
+import rich.response.Response;
 
 public class UseBombCommand implements Command {
     private int steps;
@@ -13,8 +13,7 @@ public class UseBombCommand implements Command {
     }
 
     public Pair<Player.Status, String> execute(Player player) {
-        player.use(new Bomb(), steps);
-        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
+        return Pair.of(Player.Status.WAIT_FOR_COMMAND, player.use(new Bomb(), steps));
     }
 
     public Pair<Player.Status, String> respond(Player player, Response response) {

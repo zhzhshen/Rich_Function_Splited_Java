@@ -81,10 +81,10 @@ class Application {
 
         while (true) {
             game.startTurn();
-            map.print();
 
             while (!game.getActivePlayer().getStatus().equals(Player.Status.TURN_END)) {
                 Player currentPlayer = game.getActivePlayer();
+                map.print();
                 switch (game.getActivePlayer().getStatus()) {
                     case WAIT_FOR_COMMAND:
                         System.out.print(game.getActivePlayer().getName() + ">");

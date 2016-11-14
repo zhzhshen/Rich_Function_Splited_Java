@@ -175,8 +175,8 @@ public class Player {
         items.add(item);
     }
 
-    public void use(Item item, int steps) {
-        item.use(this, steps);
+    public String use(Item item, int steps) {
+        return item.use(this, steps);
     }
 
     public void sell(int position) {
