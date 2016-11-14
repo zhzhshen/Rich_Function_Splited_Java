@@ -7,7 +7,8 @@ import rich.response.Response;
 public class QuitCommand implements Command{
     @Override
     public Pair<Player.Status, String> execute(Player player) {
-        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
+        player.quit();
+        return Pair.of(Player.Status.GAME_OVER, "");
     }
 
     @Override

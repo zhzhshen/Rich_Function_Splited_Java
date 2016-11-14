@@ -36,7 +36,9 @@ public class Game {
 
     public boolean isGameOver() {
         Player activePlayer = getActivePlayer();
-        if (activePlayer.isGameOver()) {
+        if (activePlayer.isForceQuit()) {
+            return true;
+        } else if (activePlayer.isGameOver()) {
             players.remove(currentPlayer);
             if (players.size() == 1) {
                 return true;

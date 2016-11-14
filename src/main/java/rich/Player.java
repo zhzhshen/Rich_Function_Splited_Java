@@ -25,6 +25,8 @@ public class Player {
     private int skipTurns;
     private String color;
     private String legend;
+    private boolean forceQuit = false;
+
     public Player(GameMap map, double balance, int point) {
         this.map = map;
         this.currentPlace = map.getStartingPoint();
@@ -233,6 +235,14 @@ public class Player {
 
     public void setLegend(String legend) {
         this.legend = legend;
+    }
+
+    public void quit() {
+        forceQuit = true;
+    }
+
+    public boolean isForceQuit() {
+        return forceQuit;
     }
 
     public enum Status {WAIT_FOR_RESPONSE, TURN_END, GAME_OVER, WAIT_FOR_COMMAND}
