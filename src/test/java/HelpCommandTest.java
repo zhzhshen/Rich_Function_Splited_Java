@@ -1,12 +1,33 @@
-package rich.command;
-
-import com.sun.tools.javac.util.Pair;
+import org.junit.Before;
+import org.junit.Test;
+import rich.Game;
+import rich.GameMap;
 import rich.Player;
-import rich.response.Response;
+import rich.command.HelpCommand;
+import rich.place.StartingPoint;
 
-public class HelpCommand implements Command {
-    @Override
-    public Pair<Player.Status, String> execute(Player player) {
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
+public class HelpCommandTest {
+    private GameMap map;
+    private Player player;
+    private Game game;
+
+    @Before
+    public void before() {
+        map = new GameMap(new StartingPoint(1));
+        player = new Player(map, 0, 0);
+        game = new Game(map, player);
+
+        game.startTurn();
+        assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
+    }
+
+    @Test
+    public void should_wait_for_command_if_player_help() {
+        String message = player.execute(new HelpCommand());
+
         String help;
         help =  "roll         掷骰子命令，行走1~6步。步数由随即算法产生。   \n" +
                 "block n      玩家拥有路障后，可将路障放置到离当前位置前后10步的距离，任一玩家经过路障，都将被拦截。该道具一次有效。n 前后的相对距离，负数表示后方。\n" +
@@ -18,16 +39,6 @@ public class HelpCommand implements Command {
                 "help         查看命令帮助   \n" +
                 "quit         强制退出";
 
-        return Pair.of(Player.Status.WAIT_FOR_COMMAND, help);
-    }
-
-    @Override
-    public Pair<Player.Status, String> respond(Player player, Response response) {
-        return response.execute(player);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof HelpCommand;
+        assertThat(message, is(help));
     }
 }

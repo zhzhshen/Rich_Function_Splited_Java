@@ -1,5 +1,6 @@
 package rich;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,5 +46,9 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public Player getWinner() {
+        return players.values().stream().sorted(Comparator.comparing(Player::getBalance).reversed()).findFirst().get();
     }
 }

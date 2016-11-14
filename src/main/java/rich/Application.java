@@ -4,6 +4,9 @@ import rich.command.Command;
 import rich.io.Color;
 import rich.io.CommandParser;
 import rich.io.ResponseParser;
+import rich.item.Barricade;
+import rich.item.Bomb;
+import rich.item.Robot;
 import rich.response.Response;
 
 import java.util.ArrayList;
@@ -16,42 +19,63 @@ class Application {
 
         System.out.println("Welcome to Rich World!");
 
-        System.out.println("请选择玩家初始资金 范围1000～50000（默认10000)");
-        double balance = Double.valueOf(scanner.nextLine());
+        double balance;
+        do {
+            System.out.println("请选择玩家初始资金 范围1000～50000（默认10000)");
+            balance = Double.valueOf(scanner.nextLine());
+        } while (balance < 1000 || balance > 50000);
 
-        System.out.println("请选择2~4位不重复玩家，输入编号即可。(1.钱夫人; 2.阿土伯; 3.小丹尼; 4.金贝贝):");
-        String playerStrings = scanner.nextLine();
         GameMap map = new GameMap();
+        List<Player> players;
         map.init();
 
-        List<Player> players = new ArrayList<>();
-        for (int i = 0; i < playerStrings.length(); i++) {
-            Player player = null;
-            int playerIndex = Integer.valueOf(playerStrings.substring(i, i + 1));
-            switch (playerIndex) {
-                case 1:
-                    player = new Player(map, "钱夫人", balance, 0);
-                    player.setColor(Color.ANSI_RED);
-                    player.setLegend("Q");
-                    break;
-                case 2:
-                    player = new Player(map, "阿土伯", balance, 0);
-                    player.setColor(Color.ANSI_YELLOW);
-                    player.setLegend("A");
-                    break;
-                case 3:
-                    player = new Player(map, "小丹尼", balance, 0);
-                    player.setColor(Color.ANSI_BLUE);
-                    player.setLegend("X");
-                    break;
-                case 4:
-                    player = new Player(map, "金贝贝", balance, 0);
-                    player.setColor(Color.ANSI_GREEN);
-                    player.setLegend("J");
-                    break;
+        boolean valid;
+        do {
+            System.out.println("请选择2~4位不重复玩家，输入编号即可。(1.钱夫人; 2.阿土伯; 3.小丹尼; 4.金贝贝):");
+            String playerStrings = scanner.nextLine();
+
+            players = new ArrayList<>();
+            valid = true;
+            for (int i = 0; i < playerStrings.length(); i++) {
+                Player player = null;
+                int playerIndex = Integer.valueOf(playerStrings.substring(i, i + 1));
+                String name = null;
+                String legend = null;
+                String color = null;
+                switch (playerIndex) {
+                    case 1:
+                        name = "钱夫人";
+                        legend = "Q";
+                        color = Color.ANSI_RED;
+                        break;
+                    case 2:
+                        name = "阿土伯";
+                        legend = "A";
+                        color = Color.ANSI_YELLOW;
+                        break;
+                    case 3:
+                        name = "小丹尼";
+                        legend = "X";
+                        color = Color.ANSI_BLUE;
+                        break;
+                    case 4:
+                        name = "金贝贝";
+                        legend = "J";
+                        color = Color.ANSI_GREEN;
+                        break;
+                    default:
+                        valid = false;
+                        break;
+                }
+                player = new Player(map, name, balance, 100);
+                player.setColor(color);
+                player.setLegend(legend);
+                player.addItem(new Bomb());
+                player.addItem(new Barricade());
+                player.addItem(new Robot());
+                players.add(player);
             }
-            players.add(player);
-        }
+        } while (!valid);
 
         Game game = new Game(map, players.toArray(new Player[players.size()]));
 
@@ -73,12 +97,12 @@ class Application {
                         String responseString = scanner.nextLine();
                         Response response = ResponseParser.parse(currentPlayer, responseString);
                         if (response == null) break;
-                        currentPlayer.respond(response);
+                        System.out.println(currentPlayer.respond(response));
                         break;
                 }
 
                 if (game.isGameOver()) {
-                    System.out.println("游戏结束!恭喜" + players.get(0).getName() + "获得了胜利");
+                    System.out.println("游戏结束!恭喜" + game.getWinner().getName() + "获得了胜利");
                     System.exit(0);
                 }
             }

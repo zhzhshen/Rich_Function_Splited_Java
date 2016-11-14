@@ -5,9 +5,7 @@ import rich.Player;
 import rich.place.Estate;
 
 public interface BuyLandResponse {
-    Response No = player -> {
-        return Pair.of(Player.Status.TURN_END, "放弃购买土地");
-    };
+    Response No = player -> Pair.of(Player.Status.TURN_END, "放弃购买土地");
     Response YesToBuy = player -> {
         String message = "";
         Estate currentPlace = (Estate) player.getCurrentPlace();
