@@ -1,3 +1,5 @@
+import javax.tools.ToolProvider
+
 apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
@@ -14,4 +16,10 @@ targetCompatibility = 1.8
 dependencies {
     testCompile "junit:junit:4.12"
     testCompile "org.mockito:mockito-core:1.+"
+    compile files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs())
+}
+
+task execute(type:JavaExec) {
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
 }
