@@ -66,6 +66,7 @@ public class GameMap {
         for (int i = 0; i < steps; i++) {
             if (items.containsKey(current)) {
                 Item item = items.get(current);
+                items.remove(current);
                 return item.trigger(player, current);
             }
             current = moveStepForward(current, 1);
