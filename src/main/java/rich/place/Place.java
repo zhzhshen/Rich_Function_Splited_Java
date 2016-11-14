@@ -1,9 +1,10 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 
 public interface Place {
-    Player.Status visitedBy(Player player);
+    Pair<Player.Status, String> visitedBy(Player player);
 
     int getPosition();
 

@@ -67,7 +67,7 @@ class Application {
                         String commandString = scanner.nextLine();
                         Command command = CommandParser.parse(commandString);
                         if (command == null) break;
-                        currentPlayer.execute(command);
+                        System.out.println(currentPlayer.execute(command));
                         break;
                     case WAIT_FOR_RESPONSE:
                         String responseString = scanner.nextLine();

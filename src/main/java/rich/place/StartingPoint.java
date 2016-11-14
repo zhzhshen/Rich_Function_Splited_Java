@@ -1,5 +1,6 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 
 public class StartingPoint implements Place {
@@ -9,8 +10,8 @@ public class StartingPoint implements Place {
         this.position = position;
     }
 
-    public Player.Status visitedBy(Player player) {
-        return Player.Status.TURN_END;
+    public Pair<Player.Status, String> visitedBy(Player player) {
+        return Pair.of(Player.Status.TURN_END, "");
     }
 
     public int getPosition() {

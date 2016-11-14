@@ -1,5 +1,6 @@
 package rich.command;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 import rich.item.Barricade;
 import rich.response.Response;
@@ -13,12 +14,12 @@ public class UseBarricadeCommand implements Command {
         this.steps = steps;
     }
 
-    public Player.Status execute(Player player) {
+    public Pair<Player.Status, String> execute(Player player) {
         player.use(barricade, steps);
-        return Player.Status.WAIT_FOR_COMMAND;
+        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
     }
 
-    public Player.Status respond(Player player, Response response) {
+    public Pair<Player.Status, String> respond(Player player, Response response) {
         return response.execute(player);
     }
 

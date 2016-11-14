@@ -1,5 +1,6 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 
 public class Police implements Place {
@@ -9,9 +10,9 @@ public class Police implements Place {
         this.position = position;
     }
 
-    public Player.Status visitedBy(Player player) {
+    public Pair<Player.Status, String> visitedBy(Player player) {
         player.prisoned();
-        return Player.Status.TURN_END;
+        return Pair.of(Player.Status.TURN_END, "走到警局,被扣留两回合");
     }
 
     public int getPosition() {

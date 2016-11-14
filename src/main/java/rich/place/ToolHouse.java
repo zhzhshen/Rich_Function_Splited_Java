@@ -1,5 +1,6 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 import rich.item.Barricade;
 import rich.item.Bomb;
@@ -12,18 +13,19 @@ public class ToolHouse implements Place {
         this.position = position;
     }
 
-    public Player.Status visitedBy(Player player) {
-        System.out.println("欢迎光临道具屋， 请选择您所需要的道具：");
-        System.out.println("1. 路障 50点");
-        System.out.println("2. 机器人 30点");
-        System.out.println("3. 炸弹 50点");
+    public Pair<Player.Status, String> visitedBy(Player player) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("欢迎光临道具屋， 请选择您所需要的道具：\n");
+        sb.append("1. 路障 50点\n");
+        sb.append("2. 机器人 30点\n");
+        sb.append("3. 炸弹 50点\n");
         int cheapest = Math.min(Math.min(Robot.Price, Barricade.Price), Math.min(Robot.Price, Bomb.Price));
         boolean noBudgetForCheapest = player.getPoint() < cheapest;
         if (noBudgetForCheapest) {
-            System.out.println("点数不足以购买最便宜物品, 再见");
-            return Player.Status.TURN_END;
+            sb.append("点数不足以购买最便宜物品, 再见");
+            return Pair.of(Player.Status.TURN_END, sb.toString());
         } else {
-            return Player.Status.WAIT_FOR_RESPONSE;
+            return Pair.of(Player.Status.WAIT_FOR_RESPONSE, sb.toString());
         }
     }
 

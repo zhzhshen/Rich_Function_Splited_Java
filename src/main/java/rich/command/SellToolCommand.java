@@ -1,5 +1,6 @@
 package rich.command;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 import rich.response.Response;
 import rich.item.Barricade;
@@ -13,7 +14,7 @@ public class SellToolCommand implements Command {
         this.index = index;
     }
 
-    public Player.Status execute(Player player) {
+    public Pair<Player.Status, String> execute(Player player) {
         switch (index) {
             case 1:
                 player.sellItem(new Barricade());
@@ -25,10 +26,10 @@ public class SellToolCommand implements Command {
                 player.sellItem(new Bomb());
                 break;
         }
-        return Player.Status.WAIT_FOR_COMMAND;
+        return Pair.of(Player.Status.WAIT_FOR_COMMAND, null);
     }
 
-    public Player.Status respond(Player player, Response response) {
+    public Pair<Player.Status, String> respond(Player player, Response response) {
         return response.execute(player);
     }
 

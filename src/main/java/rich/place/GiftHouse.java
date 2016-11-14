@@ -1,5 +1,6 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 
 public class GiftHouse implements Place{
@@ -9,12 +10,13 @@ public class GiftHouse implements Place{
         this.position = position;
     }
 
-    public Player.Status visitedBy(Player player) {
-        System.out.println("欢迎光临礼品屋，请选择一件您 喜欢的礼品：");
-        System.out.println("1. 奖金 2000元");
-        System.out.println("2. 点数 200点");
-        System.out.println("3. 福神 5回合");
-        return Player.Status.WAIT_FOR_RESPONSE;
+    public Pair<Player.Status, String> visitedBy(Player player) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("欢迎光临礼品屋，请选择一件您 喜欢的礼品：\n");
+        sb.append("1. 奖金 2000元");
+        sb.append("2. 点数 200点");
+        sb.append("3. 福神 5回合");
+        return Pair.of(Player.Status.WAIT_FOR_RESPONSE, sb.toString());
     }
 
     public int getPosition() {

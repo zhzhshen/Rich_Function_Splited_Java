@@ -1,8 +1,9 @@
+import com.sun.tools.javac.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
-import rich.command.Command;
 import rich.GameMap;
 import rich.Player;
+import rich.command.Command;
 import rich.response.Response;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +28,7 @@ public class PlayerTest {
     public void should_wait_for_command_if_execute_responsiveness_command() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        when(command.execute(eq(player))).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(command.execute(eq(player))).thenReturn(Pair.of(Player.Status.WAIT_FOR_COMMAND, null));
 
         player.execute(command);
 
@@ -38,7 +39,7 @@ public class PlayerTest {
     public void should_wait_for_command_if_execute_responsive_command() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        when(command.execute(eq(player))).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        when(command.execute(eq(player))).thenReturn(Pair.of(Player.Status.WAIT_FOR_RESPONSE, null));
 
         player.execute(command);
 
@@ -49,7 +50,7 @@ public class PlayerTest {
     public void should_end_turn_after_execute_command() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        when(command.execute(eq(player))).thenReturn(Player.Status.TURN_END);
+        when(command.execute(eq(player))).thenReturn(Pair.of(Player.Status.TURN_END, null));
 
         player.execute(command);
 
@@ -60,12 +61,12 @@ public class PlayerTest {
     public void should_wait_for_command_after_respond_to_command() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        when(command.execute(eq(player))).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        when(command.execute(eq(player))).thenReturn(Pair.of(Player.Status.WAIT_FOR_RESPONSE, null));
 
         player.execute(command);
 
         Response response = mock(Response.class);
-        when(command.respond(eq(player), eq(response))).thenReturn(Player.Status.WAIT_FOR_COMMAND);
+        when(command.respond(eq(player), eq(response))).thenReturn(Pair.of(Player.Status.WAIT_FOR_COMMAND, null));
 
         player.respond(response);
 
@@ -76,12 +77,12 @@ public class PlayerTest {
     public void should_end_turn_after_respond_to_command() {
         assertThat(player.getStatus(), is(Player.Status.WAIT_FOR_COMMAND));
 
-        when(command.execute(eq(player))).thenReturn(Player.Status.WAIT_FOR_RESPONSE);
+        when(command.execute(eq(player))).thenReturn(Pair.of(Player.Status.WAIT_FOR_RESPONSE, null));
 
         player.execute(command);
 
         Response response = mock(Response.class);
-        when(command.respond(eq(player), eq(response))).thenReturn(Player.Status.TURN_END);
+        when(command.respond(eq(player), eq(response))).thenReturn(Pair.of(Player.Status.TURN_END, null));
 
         player.respond(response);
 

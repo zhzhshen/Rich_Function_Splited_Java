@@ -1,5 +1,6 @@
 package rich;
 
+import com.sun.tools.javac.util.Pair;
 import rich.command.Command;
 import rich.io.Color;
 import rich.item.Item;
@@ -22,10 +23,8 @@ public class Player {
     private int point;
     private List<Item> items = new ArrayList();
     private int skipTurns;
-    private String message;
     private String color;
     private String legend;
-
     public Player(GameMap map, double balance, int point) {
         this.map = map;
         this.currentPlace = map.getStartingPoint();
@@ -50,14 +49,6 @@ public class Player {
         return name;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public double getBalance() {
         return balance;
     }
@@ -66,13 +57,21 @@ public class Player {
         return status;
     }
 
-    public void execute(Command command) {
-        this.command = command;
-        status = this.command.execute(this);
+    public List<Estate> getEstates() {
+        return estates;
     }
 
-    public void respond(Response response) {
-        status = command.respond(this, response);
+    public String execute(Command command) {
+        this.command = command;
+        Pair<Status, String> executeResult = this.command.execute(this);
+        status = executeResult.fst;
+        return executeResult.snd;
+    }
+
+    public String respond(Response response) {
+        Pair<Status, String> respondResult = command.respond(this, response);
+        status = respondResult.fst;
+        return respondResult.snd;
     }
 
     public Place getCurrentPlace() {
@@ -87,28 +86,28 @@ public class Player {
         currentPlace = newPlace;
     }
 
-    public boolean buy() {
+    public String buy() {
         if (currentPlace instanceof Estate) {
             Estate estate = (Estate) currentPlace;
             if (reduceMoney(estate.getPrice())) {
                 estate.sellTo(this);
                 estates.add(estate);
-                return true;
+                return "成功购买土地";
             }
         }
-        return false;
+        return "购买土地失败";
     }
 
-    public boolean build() {
+    public String build() {
         if (currentPlace instanceof Estate) {
             Estate estate = (Estate) currentPlace;
             if (!estate.isMaxLevel()
                     && reduceMoney(estate.getPrice())) {
                 estate.build();
-                return true;
+                return "成功升级土地";
             }
         }
-        return false;
+        return "升级土地失败";
     }
 
     public boolean reduceMoney(double amount) {

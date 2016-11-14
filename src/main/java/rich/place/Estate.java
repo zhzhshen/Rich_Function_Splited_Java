@@ -1,5 +1,6 @@
 package rich.place;
 
+import com.sun.tools.javac.util.Pair;
 import rich.io.Color;
 import rich.Player;
 
@@ -40,28 +41,35 @@ public class Estate implements Place {
         return level == MAX_LEVEL;
     }
 
-    private void charge(Player player) {
-        if (owner.isInHospital() || owner.isInPrison() || player.hasEvisu()) {
-            return;
+    private String charge(Player player) {
+        if (owner.isInHospital()) {
+            return owner.getName() + "在医院, 免付过路费";
+        } else if (owner.isInPrison()) {
+            return owner.getName() + "在监狱, 免付过路费";
+        } else if (player.hasEvisu()) {
+            return "福神保佑,免付过路费~";
         }
         double charge = 0.5 * price * Math.pow(2, level);
         if (player.reduceMoney(charge)) {
             owner.gainMoney(charge);
-            System.out.println("向" + owner.getName() + "付过路费" + charge + "元");
+            String message = "向" + owner.getName() + "付过路费" + charge + "元";
+            return message;
         } else {
             owner.gainMoney(player.getBalance());
-            System.out.println("余额不足以支付" + owner.getName() + "过路费" + charge + "元, 扑街!");
+            String message = "余额不足以支付" + owner.getName() + "过路费" + charge + "元, 扑街!";
             player.remove();
+            return message;
         }
     }
 
-    public Player.Status visitedBy(Player player) {
+    public Pair<Player.Status, String> visitedBy(Player player) {
+        String message;
         if (owner == null || owner.equals(player)) {
-            System.out.println("是否" + (owner == null ? "购买" : "升级") + "该处土地，" + price + "元（Y/N）?");
-            return Player.Status.WAIT_FOR_RESPONSE;
+            message = "是否" + (owner == null ? "购买" : "升级") + "该处土地，" + price + "元（Y/N）?";
+            return Pair.of(Player.Status.WAIT_FOR_RESPONSE, message);
         } else {
-            charge(player);
-            return Player.Status.TURN_END;
+            message = charge(player);
+            return Pair.of(Player.Status.TURN_END, message);
         }
     }
 

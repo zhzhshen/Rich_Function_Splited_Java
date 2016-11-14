@@ -1,7 +1,8 @@
 package rich.response;
 
+import com.sun.tools.javac.util.Pair;
 import rich.Player;
 
 public interface Response {
-    Player.Status execute(Player player);
+    Pair<Player.Status, String> execute(Player player);
 }
