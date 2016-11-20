@@ -42,6 +42,10 @@ public class CommandStreamTest {
 
         assertThat(player.canTakeCommands(), is(true));
 
+        player.execute("query");
+
+        assertThat(player.canTakeCommands(), is(true));
+
         player.execute("roll");
 
         assertThat(player.canTakeCommands(), is(true));

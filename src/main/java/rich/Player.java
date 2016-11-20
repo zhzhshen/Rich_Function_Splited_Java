@@ -14,7 +14,7 @@ public class Player {
         return !commands.isEmpty();
     }
 
-    public void execute(String command) {
-        this.commands = commands.stream().map(c -> c.take(command)).filter(c -> c != null).findFirst().get().execute(this);
+    public void execute(String commandString) {
+        commands.stream().map(c -> c.take(commandString)).filter(c -> c != null).findFirst().map(c -> this.commands = c.execute(this)).orElse(null);
     }
 }
